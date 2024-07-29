@@ -8,7 +8,7 @@ import '../index.css';
 export default function Header() {
   const path = useLocation().pathname;
   return (
-    <Navbar className='border-b-2 py-4'>
+    <Navbar className='border-b-2 py-4 relative z-50'>
         <Link to="/" className='self-center whitespace-nowrap text-sm sm:text-xl font-semibold'>
           <img src="../images/logo.png" alt="Logo" className='h-8 sm:h-10' />
         </Link>
