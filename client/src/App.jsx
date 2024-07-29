@@ -8,6 +8,8 @@ import Dashboard from './pages/Dashboard'
 import LienHe from './pages/LienHe'
 import Header from './components/Header'
 import TuyenSinh from './pages/TuyenSinh'
+import './index.css';
+
 
 
 export default function App() {
@@ -16,11 +18,11 @@ export default function App() {
       <Header/>
       <Routes>
         <Route path='/' element={<Home/>} />
-        <Route path='/gioithieu' element={<GioiThieu/>} />
+        <Route path='/gioi-thieu' element={<GioiThieu/>} />
         <Route path='/sign-in' element={<SignIn/>} />
         <Route path='/sign-up' element={<SignUp/>} />
         <Route path='/dashboard' element={<Dashboard/>} />
-        <Route path='/lienhe' element={<LienHe/>} />
+        <Route path='/lien-he' element={<LienHe/>} />
         <Route path='/tuyensinh' element={<TuyenSinh/>} />
       </Routes>
     </BrowserRouter>
