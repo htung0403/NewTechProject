@@ -6,6 +6,7 @@ import DangKy from './pages/DangKy'
 import Dashboard from './pages/Dashboard'
 import LienHe from './pages/LienHe'
 import Header from './components/Header'
+import Footer from './components/Footer'
 import TuyenSinh from './pages/TuyenSinh'
 import './index.css';
 import DangNhap from './pages/DangNhap'
@@ -25,6 +26,7 @@ export default function App() {
         <Route path='/lien-he' element={<LienHe/>} />
         <Route path='/tuyensinh' element={<TuyenSinh/>} />
       </Routes>
+      <Footer/>
     </BrowserRouter>
   )
 }
