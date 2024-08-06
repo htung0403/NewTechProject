@@ -29,16 +29,17 @@ export default function Home() {
         ))}
       </Carousel>
       <div className='container absolute top-[610px] left-1/2 transform -translate-x-1/2 z-10 flex justify-center'>
-        <div className='grid grid-cols-3 gap-[70px]'>
-          <div className='text-column h-[171px] w-[400px] inset-0 rounded-3xl pl-10 pt-4 pb-4 relative flex flex-col justify-center outline-black' style={{ backgroundImage: `linear-gradient(rgba(255, 0, 122, 0.8), rgba(255, 0, 122, 1)), url(${background1})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-            <p className='font-semibold font text-[2rem] relative z-10 text-white'>SỰ KIỆN</p>
-            <b className='text-[2.5rem] relative z-10 text-white'>ẤN TƯỢNG</b>
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-[20px] md:gap-[70px]'>
+          <div className='text-column h-[171px] w-full md:w-[400px] inset-0 rounded-3xl pl-10 pt-4 pb-4 relative flex flex-col justify-center outline-black' 
+          style={{ backgroundImage: `linear-gradient(rgba(255, 0, 122, 0.8), rgba(255, 0, 122, 1)), url(${background1})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+            <p className='font-semibold font md:text-[2rem] text-[23px] relative z-10 text-white'>SỰ KIỆN</p>
+            <b className='md:text-[2.5rem] text-[27px] relative z-10 text-white'>ẤN TƯỢNG</b>
           </div>
-          <div className='text-column h-[171px] w-[400px] inset-0 bg-gradient-to-r from-yellow-200 to-yellow-50 rounded-3xl pl-10 pt-4 pb-4 relative flex flex-col justify-center'>
+          <div className='text-column h-[171px] w-full md:w-[400px] inset-0 bg-gradient-to-r from-yellow-200 to-yellow-50 rounded-3xl pl-10 pt-4 pb-4 relative flex flex-col justify-center'>
             <h3 className='font-semibold text-[23px] relative z-10 text-white'>LỚP HỌC</h3>
             <h2 className='font-bold text-[27px] relative z-10'>NĂNG ĐỘNG</h2>
           </div>
-          <div className='text-column h-[171px] w-[400px] inset-0 bg-gradient-to-r from-pink-400 to-pink-200 rounded-3xl pl-10 pt-4 pb-4 relative flex flex-col justify-center'>
+          <div className='text-column h-[171px] w-full md:w-[400px] inset-0 bg-gradient-to-r from-pink-400 to-pink-200 rounded-3xl pl-10 pt-4 pb-4 relative flex flex-col justify-center'>
             <h3 className='font-semibold text-[23px] relative z-10'>GIÁO VIÊN</h3>
             <h2 className='font-bold text-[27px] relative z-10'>TẬN TÂM</h2>
           </div>
@@ -67,26 +68,26 @@ export default function Home() {
         <p className='text-lg mt-[5px] flex justify-center'>tài năng trong Cuộc thi “Nhân tài đất Việt”; và rất nhiều học sinh khác.</p>
       </div>
       <div className='container'>
-        <div className='flex justify-around ml-[160px] mt-[40px]'>
-          <div class="w-1/4 flex flex-col justify-center items-center">
+        <div className='flex flex-wrap justify-around md:ml-[160px] mt-[40px] ml-0'>
+          <div className="w-full md:w-1/4 flex flex-col justify-center items-center mb-6 md:mb-0">
             <img src={khoahocimg} alt="Description" className="w-[100px] h-auto object-cover mb-4"/>
             <b className='text-[30px] mt-3'>Khoa Học</b>
             <img src={line} alt="line" className="w-[130px] mt-3"/>
             <p className='text-center mt-2 text-[17px]'>Huy chương Vàng, Bạc & các giải Nhất,<br/> Đặc biệt tại cuộc thi Toán Quốc tế<br/> (Kangaroo, IMAS, AMO,…)</p>
           </div>
-          <div class="w-1/4 flex flex-col justify-center items-center">
+          <div className="w-full md:w-1/4 flex flex-col justify-center items-center mb-6 md:mb-0">
             <img src={khoahocimg} alt="Description" className="w-[100px] h-auto object-cover mb-4"/>
             <b className='text-[30px] mt-3'>Khoa Học</b>
             <img src={line} alt="line" className="w-[130px] mt-3"/>
             <p className='text-center mt-2 text-[17px]'>Huy chương Vàng, Bạc & các giải Nhất,<br/> Đặc biệt tại cuộc thi Toán Quốc tế<br/> (Kangaroo, IMAS, AMO,…)</p>
           </div>
-          <div class="w-1/4 flex flex-col justify-center items-center">
+          <div className="w-full md:w-1/4 flex flex-col justify-center items-center mb-6 md:mb-0">
             <img src={khoahocimg} alt="Description" className="w-[100px] h-auto object-cover mb-4"/>
             <b className='text-[30px] mt-3'>Khoa Học</b>
             <img src={line} alt="line" className="w-[130px] mt-3"/>
             <p className='text-center mt-2 text-[17px]'>Huy chương Vàng, Bạc & các giải Nhất,<br/> Đặc biệt tại cuộc thi Toán Quốc tế<br/> (Kangaroo, IMAS, AMO,…)</p> 
           </div>
-          <div class="w-1/4 flex flex-col justify-center items-center">
+          <div className="w-full md:w-1/4 flex flex-col justify-center items-center mb-6 md:mb-0">
             <img src={khoahocimg} alt="Description" className="w-[100px] h-auto object-cover mb-4"/>
             <b className='text-[30px] mt-3'>Khoa Học</b>
             <img src={line} alt="line" className="w-[130px] mt-3"/>

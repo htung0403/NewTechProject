@@ -101,9 +101,11 @@ export default function Header() {
           <AiOutlineSearch/>
         </Button>
         <div>
-          <Button className='w-30 h-10 bg-zinc-300' outline color='gray' pill>
-            ĐĂNG NHẬP
-          </Button>
+          <Link to='/dang-nhap'>
+            <Button className='w-30 h-10 bg-zinc-300' outline color='gray' pill>
+              ĐĂNG NHẬP
+            </Button>
+          </Link>
         </div>
     </Navbar>
   )
