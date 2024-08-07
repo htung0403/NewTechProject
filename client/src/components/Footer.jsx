@@ -3,7 +3,7 @@ import { BsFacebook } from 'react-icons/bs'
 
 export default function FooterCom() {
   return (
-    <Footer container className="bg-blue-500 mt-10">
+    <Footer container className="bg-cyan-200 mt-10">
         <div className="w-full w-max-7xl mx-auto">
             <div className="grid grid-cols-2 gap-4 sm:mt-4 sm:gap-6 md:mx-[120px] mx-2 md:text-sm text-xs">
                 <div>
@@ -25,8 +25,7 @@ export default function FooterCom() {
                 </div>
                 
             </div>
-            <Footer.Copyright className="text-black" href="#" by="Nam Phuoc 1 Primary School, All right reserved" year={new Date().getFullYear()}/>
-            <Footer.Copyright className="text-black" href="#" by="Trường Tiểu học Nam Phước 1 - Duy Xuyên giữ bản quyền nội dung trên website này." year={new Date().getFullYear()}/>
+            <Footer.Copyright className="text-black font-bold" href="#" by="Trường Tiểu học Nam Phước 1 - Duy Xuyên." year={new Date().getFullYear()}/>
         </div>
         
     </Footer>

@@ -41,7 +41,7 @@ export default function DangKy() {
     }
   }
   return (
-    <div className='min-h-screen mt-[3rem]'>
+    <div className='mt-[3rem]'>
       <div className="flex justify-center">
         <div className="relative text-center">
           <h1 className="text-3xl md:text-4xl font-serif font-semibold">
