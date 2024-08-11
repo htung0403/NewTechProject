@@ -3,13 +3,15 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import GioiThieu from './pages/GioiThieu';
 import DangKy from './admin/DangKy';
-import Dashboard from './pages/Dashboard';
+import Dashboard from './admin/Dashboard';
 import LienHe from './pages/LienHe';
 import TuyenSinh from './pages/TuyenSinh';
 import DangNhap from './admin/DangNhap';
+import Profile from './admin/Profile';
 import PublicLayout from './layout/PublicLayout';
 import AdminLayout from './layout/AdminLayout';
 import './index.css';
+import PrivateRoute from './components/PrivateRoute';
 
 export default function App() {
   return (
@@ -21,10 +23,13 @@ export default function App() {
         <Route path='/lien-he' element={<PublicLayout><LienHe /></PublicLayout>} />
         <Route path='/tuyensinh' element={<PublicLayout><TuyenSinh /></PublicLayout>} />
 
+        <Route element={<PrivateRoute/>}>
+          <Route path='/dashboard' element={<AdminLayout><Dashboard /></AdminLayout>} />
+        </Route>
         {/* Admin Routes */}
         <Route path='/admin/dang-ky' element={<AdminLayout><DangKy /></AdminLayout>} />
-        <Route path='/admin' element={<AdminLayout><Dashboard /></AdminLayout>} />
         <Route path='/admin/dang-nhap' element={<AdminLayout><DangNhap /></AdminLayout>} />
+        <Route path='/admin/thong-tin' element={<AdminLayout><Profile></Profile></AdminLayout>}/>
       </Routes>
     </BrowserRouter>
   );

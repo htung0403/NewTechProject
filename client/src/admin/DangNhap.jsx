@@ -1,7 +1,6 @@
 import { Alert, Spinner } from 'flowbite-react';
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { login } from '../../../api/services/auth.service.js'; 
 import {useDispatch, useSelector} from 'react-redux'
 import { signInSuccess, signInStart, signInFailure } from '../redux/user/userSlice.js';
 
@@ -47,7 +46,7 @@ export default function DangNhap() {
       <div className="flex justify-center">
         <div className="relative text-center">
           <h1 className="text-3xl md:text-4xl font-serif font-semibold">
-            ĐĂNG KÝ TÀI KHOẢN
+            ĐĂNG NHẬP TÀI KHOẢN
           </h1>
         <i className="mt-4 text-lg text-gray-600">Trường Tiểu học Nam Phước 1</i>
         </div>
@@ -97,7 +96,7 @@ export default function DangNhap() {
       
       <div className="flex justify-center items-center mt-10">
         <div className="inline-flex items-center rounded-full bg-gray-100 px-4 py-2">
-          <span className="text-gray-700 font-medium">Chưa có tài khoản?</span>
+          <span className="text-gray-700 font-medium">Quên mật khẩu ?</span>
           <span className="ml-2 text-gray-500">ĐĂNG KÝ</span>
           <Link to='/admin/dang-ky'>
           <button className="bg-purple-500 text-white rounded-full ml-4 px-3 py-1 hover:bg-purple-600">
