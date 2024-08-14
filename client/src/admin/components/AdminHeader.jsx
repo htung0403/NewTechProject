@@ -101,7 +101,7 @@ export default function AdminHeader() {
                     <span className='block text-sm'>@{currentUser.username}</span>
                     <span className='block text-sm font-medium truncate'>{currentUser.fullName}</span>
                 </Dropdown.Header>
-                <Link to={'/dashboard?tab=thong-tin'}>
+                <Link to={'/dashboard?tab=ho-so'}>
                     <Dropdown.Item>
                         Hồ sơ
                     </Dropdown.Item>

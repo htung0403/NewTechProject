@@ -25,6 +25,7 @@ export default function App() {
 
         <Route element={<PrivateRoute/>}>
           <Route path='/dashboard' element={<AdminLayout><Dashboard /></AdminLayout>} />
+          <Route path='/admin' element={<AdminLayout><Dashboard /></AdminLayout>} />
         </Route>
         {/* Admin Routes */}
         <Route path='/admin/dang-ky' element={<AdminLayout><DangKy /></AdminLayout>} />

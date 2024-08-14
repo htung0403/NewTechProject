@@ -18,7 +18,7 @@ export default function DashSidebar() {
       <SidebarItems>
         <SidebarItemGroup>
           <Link to='/dashboard?tab=ho-so'>
-            <SidebarItem active={tab === 'ho-so'} icon={HiUser} label={'User'} labelColor='dark'>
+            <SidebarItem active={tab === 'ho-so'} icon={HiUser} label={'User'} labelColor='dark' as='div'>
               Hồ sơ
             </SidebarItem>
           </Link>

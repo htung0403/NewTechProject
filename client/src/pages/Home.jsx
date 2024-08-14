@@ -9,6 +9,7 @@ import image4 from '../images/home_slider/IMG_7133.JPG';
 import background1 from '../images/background_card/IMG_0283.JPG'
 import khoahocimg from '../images/khoahoc.png'
 import line from '../images/line-min.png'
+import PostCard from '../components/PostCard';
 
 const images = [image1, image2, image3, image4];
 
