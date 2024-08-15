@@ -1,10 +1,10 @@
 import User from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
 import { errorHandler } from "../utils/error.js";
-import jwt from 'jsonwebtoken'
+import jwt from "jsonwebtoken";
 
 export const signup = async (req, res, next) => {
-  const { username, email, password, fullName, role } = req.body;
+  const { username, email, password, fullName, isAdmin } = req.body;
 
   if (
     !username ||
@@ -15,8 +15,8 @@ export const signup = async (req, res, next) => {
     email === "" ||
     fullName === ""
   ) {
-  next(errorHandler(400, 'All fields required!'));
-}
+    next(errorHandler(400, "All fields required!"));
+  }
 
   try {
     // Hash the password
@@ -28,7 +28,7 @@ export const signup = async (req, res, next) => {
       email,
       password: hashedPassword,
       fullName,
-      role: role || "khach", // Default role
+      isAdmin: false, // Default role
     });
 
     // Save the user to the database
@@ -41,32 +41,33 @@ export const signup = async (req, res, next) => {
   }
 };
 
-export const signin = async (req, res,next) => {
-  const {email , password} = req.body;
+export const signin = async (req, res, next) => {
+  const { email, password } = req.body;
 
-  if (!email || !password || email === '' || password === ''){
-    next(errorHandler(400, 'All fields are required'))
+  if (!email || !password || email === "" || password === "") {
+    next(errorHandler(400, "All fields are required"));
   }
 
   try {
     const validUser = await User.findOne({ email });
-    if(!validUser){
-      return next(errorHandler(404, 'User not found'));
+    if (!validUser) {
+      return next(errorHandler(404, "User not found"));
     }
     const validPassword = bcryptjs.compareSync(password, validUser.password);
-    if(!validPassword){
-      return next(errorHandler(400,'Invalid password'));
+    if (!validPassword) {
+      return next(errorHandler(400, "Invalid password"));
     }
     const token = jwt.sign(
-      { id: validUser._id }, process.env.JWT_SECRET
+      { id: validUser._id, isAdmin: validUser.isAdmin },
+      process.env.JWT_SECRET
     );
-    const {password: pass, ...rest} = validUser._doc;
+    const { password: pass, ...rest } = validUser._doc;
 
     res
       .status(200)
-      .cookie('access_token', token,{ httpOnly:true }).json(rest)
-    
-  }catch (error) {
+      .cookie("access_token", token, { httpOnly: true })
+      .json(rest);
+  } catch (error) {
     next(error);
   }
 };
