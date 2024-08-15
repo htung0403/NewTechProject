@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { Alert, Button, TextInput } from "flowbite-react";
+import { Alert, Button, Modal, ModalBody, ModalHeader, TextInput } from "flowbite-react";
 import {
   getDownloadURL,
   getStorage,
@@ -15,11 +15,15 @@ import {
   updateStart,
   updateSuccess,
   updateFailure,
+  deleteUserStart,
+  deleteUserSuccess,
+  deleteUserFailure,
 } from "../../redux/user/userSlice.js";
 import { useDispatch } from "react-redux";
+import {HiOutlineExclamationCircle} from 'react-icons/hi'
 
 export default function DashProfile() {
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser, error } = useSelector((state) => state.user);
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
   const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
@@ -27,6 +31,7 @@ export default function DashProfile() {
   const [imageFileUploading, setImageFileUploading] = useState(false);
   const [updateUserSuccess, setUpdateUserSuccess] = useState(null);
   const [updateUserError, setUpdateUserError] = useState(null);
+  const [showModal, setShowModal] = useState(false)
   const [formData, setFormData] = useState({});
   const filePickerRef = useRef();
   const dispatch = useDispatch();
@@ -114,6 +119,22 @@ export default function DashProfile() {
     }
   };
 
+  const handleDeleteUser = async () => {
+    setShowModal(false);
+    try {
+      dispatch(deleteUserStart());
+      const res = await fetch(`/api/user/delete/${currentUser._id}`,
+        {
+          method: 'DELETE',
+        });
+      const data = await res.json();
+      if (res.ok) {
+        dispatch(deleteUserSuccess(data));
+      }
+    } catch (error) {
+      dispatch(deleteUserFailure(error.message));
+    }
+  };
   return (
     <div className="max-w-lg mx-auto p-3 w-full">
       <h1 className="my-7 text-center font-semibold text-3xl">Hồ sơ</h1>
@@ -196,7 +217,7 @@ export default function DashProfile() {
         </Button>
       </form>
       <div className="text-red-500 flex justify-between mt-5">
-        <span className="cursor-pointer">Xóa tài khoản</span>
+        <span onClick={()=> setShowModal(true)} className="cursor-pointer">Xóa tài khoản</span>
         <span className="cursor-pointer">Đăng xuất</span>
       </div>
       {updateUserSuccess && (
@@ -209,6 +230,24 @@ export default function DashProfile() {
           {updateUserError}
         </Alert>
       )}
+      {error && (
+        <Alert color='failure' className="mt-5">
+          {error}
+        </Alert>
+      )}
+      <Modal show={showModal} onClose={() => setShowModal(false)} popup size={'md'}>
+        <ModalHeader/>
+        <ModalBody>
+          <div className="text-center">
+            <HiOutlineExclamationCircle className="h-14 w-14 text-gray-400 mb-4 mx-auto"/>
+            <h3 className="text-lg font-semibold">Xác nhận xóa tài khoản</h3>
+            <div className="flex justify-center gap-5 mt-5">
+              <Button color='failure' onClick={handleDeleteUser}>Đồng ý</Button>
+              <Button color='gray' onClick={() => setShowModal(false)}>Hủy</Button>
+            </div>
+          </div>
+        </ModalBody>
+      </Modal>
     </div>
   );
 }
