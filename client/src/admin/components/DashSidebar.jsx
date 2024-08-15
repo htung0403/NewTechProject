@@ -3,6 +3,8 @@ import { Sidebar, SidebarItem, SidebarItemGroup, SidebarItems } from 'flowbite-r
 import { HiArrowSmRight, HiUser } from 'react-icons/hi';
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { signOutSuccess } from '../../redux/user/userSlice.js';
+import { useDispatch } from 'react-redux';
 export default function DashSidebar() {
   const location= useLocation();
   const [tab, setTab] = useState('')
@@ -13,6 +15,23 @@ export default function DashSidebar() {
       setTab(tabFromUrl)
     }
   }, [location.search])
+  const dispatch = useDispatch();
+  const handleSignout = async () => {
+    try {
+      const res = await fetch(`/api/user/signout`, {
+        method: 'POST',
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      }
+      else {
+        dispatch(signOutSuccess());
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   return (
     <Sidebar className='w-full md:w-56'>
       <SidebarItems>
@@ -22,7 +41,7 @@ export default function DashSidebar() {
               Hồ sơ
             </SidebarItem>
           </Link>
-          <SidebarItem active icon={HiArrowSmRight} className='cursor-pointer'>
+          <SidebarItem active icon={HiArrowSmRight} className='cursor-pointer' onClick={handleSignout}>
             Đăng xuất
           </SidebarItem>
         </SidebarItemGroup>

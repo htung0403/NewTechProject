@@ -3,12 +3,31 @@ import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { AiOutlineSearch, AiOutlineRight } from 'react-icons/ai'
 import '../../index.css';
-import {useSelector} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
+import { signOutSuccess } from '../../redux/user/userSlice';
 
 
 export default function AdminHeader() {
   const path = useLocation().pathname;
+  const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
+
+  const handleSignout = async () => {
+    try {
+      const res = await fetch(`/api/user/signout`, {
+        method: 'POST',
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      }
+      else {
+        dispatch(signOutSuccess());
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   return (
     <Navbar className='border-b-2 py-4 relative z-50'>
         <Link to="/" className='self-center whitespace-nowrap text-sm sm:text-xl font-semibold'>
@@ -107,7 +126,7 @@ export default function AdminHeader() {
                     </Dropdown.Item>
                 </Link>
                 <Dropdown.Divider/>
-                <Dropdown.Item>Đăng xuất</Dropdown.Item>
+                <Dropdown.Item onClick={handleSignout}>Đăng xuất</Dropdown.Item>
             </Dropdown>
         ): (
             <Link to='/admin/dang-nhap'>
