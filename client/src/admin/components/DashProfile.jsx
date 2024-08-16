@@ -1,6 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { Alert, Button, Modal, ModalBody, ModalHeader, TextInput } from "flowbite-react";
+import {
+  Alert,
+  Button,
+  Modal,
+  ModalBody,
+  ModalHeader,
+  TextInput,
+} from "flowbite-react";
+import { Link } from "react-router-dom";
 import {
   getDownloadURL,
   getStorage,
@@ -21,10 +29,10 @@ import {
   signOutSuccess,
 } from "../../redux/user/userSlice.js";
 import { useDispatch } from "react-redux";
-import {HiOutlineExclamationCircle} from 'react-icons/hi'
+import { HiOutlineExclamationCircle } from "react-icons/hi";
 
 export default function DashProfile() {
-  const { currentUser, error } = useSelector((state) => state.user);
+  const { currentUser, error, loading } = useSelector((state) => state.user);
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
   const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
@@ -32,7 +40,7 @@ export default function DashProfile() {
   const [imageFileUploading, setImageFileUploading] = useState(false);
   const [updateUserSuccess, setUpdateUserSuccess] = useState(null);
   const [updateUserError, setUpdateUserError] = useState(null);
-  const [showModal, setShowModal] = useState(false)
+  const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({});
   const filePickerRef = useRef();
   const dispatch = useDispatch();
@@ -90,19 +98,19 @@ export default function DashProfile() {
     setUpdateUserError(null);
     setUpdateUserSuccess(null);
     if (Object.keys(formData).length === 0) {
-      setUpdateUserError('Không có gì thay đổi');
+      setUpdateUserError("Không có gì thay đổi");
       return;
     }
     if (imageFileUploading) {
-      setUpdateUserError('Vui lòng chờ ảnh được tải lên');
+      setUpdateUserError("Vui lòng chờ ảnh được tải lên");
       return;
     }
     try {
       dispatch(updateStart());
       const res = await fetch(`/api/user/update/${currentUser._id}`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
@@ -124,10 +132,9 @@ export default function DashProfile() {
     setShowModal(false);
     try {
       dispatch(deleteUserStart());
-      const res = await fetch(`/api/user/delete/${currentUser._id}`,
-        {
-          method: 'DELETE',
-        });
+      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+        method: "DELETE",
+      });
       const data = await res.json();
       if (res.ok) {
         dispatch(deleteUserSuccess(data));
@@ -140,13 +147,12 @@ export default function DashProfile() {
   const handleSignout = async () => {
     try {
       const res = await fetch(`/api/user/signout`, {
-        method: 'POST',
+        method: "POST",
       });
       const data = await res.json();
       if (!res.ok) {
         console.log(data.message);
-      }
-      else {
+      } else {
         dispatch(signOutSuccess());
       }
     } catch (error) {
@@ -230,38 +236,67 @@ export default function DashProfile() {
           placeholder="Mật khẩu"
           onChange={handleChange}
         />
-        <Button type="submit" gradientDuoTone="cyanToBlue" outline>
-          Cập nhật
+        <Button
+          type="submit"
+          gradientDuoTone="cyanToBlue"
+          outline
+          disabled={loading || imageFileUploading}
+        >
+          { loading ? 'Đang tải...' :'Cập nhật'}
         </Button>
+        {currentUser.isAdmin && (
+          <Link to={"/create-post"}>
+            <Button
+              type="button"
+              gradientDuoTone="purpleToBlue"
+              className="w-full"
+            >
+              Tạo bài viết
+            </Button>
+          </Link>
+        )}
       </form>
       <div className="text-red-500 flex justify-between mt-5">
-        <span onClick={()=> setShowModal(true)} className="cursor-pointer">Xóa tài khoản</span>
-        <span onClick={handleSignout} className="cursor-pointer">Đăng xuất</span>
+        <span onClick={() => setShowModal(true)} className="cursor-pointer">
+          Xóa tài khoản
+        </span>
+        <span onClick={handleSignout} className="cursor-pointer">
+          Đăng xuất
+        </span>
       </div>
       {updateUserSuccess && (
-        <Alert color='success' className="mt-5">
+        <Alert color="success" className="mt-5">
           {updateUserSuccess}
         </Alert>
       )}
       {updateUserError && (
-        <Alert color='failure' className="mt-5">
+        <Alert color="failure" className="mt-5">
           {updateUserError}
         </Alert>
       )}
       {error && (
-        <Alert color='failure' className="mt-5">
+        <Alert color="failure" className="mt-5">
           {error}
         </Alert>
       )}
-      <Modal show={showModal} onClose={() => setShowModal(false)} popup size={'md'}>
-        <ModalHeader/>
+      <Modal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        popup
+        size={"md"}
+      >
+        <ModalHeader />
         <ModalBody>
           <div className="text-center">
-            <HiOutlineExclamationCircle className="h-14 w-14 text-gray-400 mb-4 mx-auto"/>
+            <HiOutlineExclamationCircle className="h-14 w-14 text-gray-400 mb-4 mx-auto" />
             <h3 className="text-lg font-semibold">Xác nhận xóa tài khoản</h3>
             <div className="flex justify-center gap-5 mt-5">
-              <Button color='failure' onClick={handleDeleteUser}>Đồng ý</Button>
-              <Button color='gray' onClick={() => setShowModal(false)}>Hủy</Button>
+              <Button color="failure" onClick={handleDeleteUser}>
+                Đồng ý
+              </Button>
+              <Button color="gray" onClick={() => setShowModal(false)}>
+                Hủy
+              </Button>
             </div>
           </div>
         </ModalBody>

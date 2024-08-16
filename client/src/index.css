@@ -2,6 +2,12 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+body {
+  height: 100vh;
+}
+.ql-editor{
+  font-size: 1.05rem;
+}
 
 .group:hover > .group-hover\:block {
   display: block;
