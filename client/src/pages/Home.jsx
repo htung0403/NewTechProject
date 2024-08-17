@@ -15,7 +15,7 @@ const images = [image1, image2, image3, image4];
 
 export default function Home() {
   return (
-    <div className='relative'>
+    <div className='relative' >
       <Carousel
         showThumbs={false}
         autoPlay
@@ -25,7 +25,7 @@ export default function Home() {
       >
         {images.map((image, index) => (
           <div key={index}>
-            <img src={image} alt={`Slide ${index}`} className="h-[700px] w-full object-cover z-1"/>
+            <img src={image} alt={`Slide ${index}`} className="h-[700px] w-full object-cover z-1" loading='lazy'/>
           </div>
         ))}
       </Carousel>
