@@ -16,6 +16,8 @@ import OnlyAdminPrivateRoute from './components/OnlyAdminPrivateRoute';
 import TaoBaiViet from './admin/TaoBaiViet';
 import UpdatePost from './admin/SuaBaiViet';
 import PostPage from './pages/PostPage';
+import ThuNgo from './pages/ThuNgo';
+import UploadFile from './admin/UploadFile';
 
 export default function App() {
   return (
@@ -25,6 +27,7 @@ export default function App() {
         {/* Public Routes */}
         <Route path='/' element={<PublicLayout><Home /></PublicLayout>} />
         <Route path='/gioi-thieu' element={<PublicLayout><GioiThieu /></PublicLayout>} />
+        <Route path='/gioi-thieu/thu-ngo' element={<PublicLayout><ThuNgo /></PublicLayout>} />
         <Route path='/lien-he' element={<PublicLayout><LienHe /></PublicLayout>} />
         <Route path='/tuyensinh' element={<PublicLayout><TuyenSinh /></PublicLayout>} />+
         <Route path='/admin/dang-nhap' element={<AdminLayout><DangNhap /></AdminLayout>} />
@@ -35,6 +38,7 @@ export default function App() {
           <Route path='/admin' element={<AdminLayout><Dashboard /></AdminLayout>} />
           <Route path='/admin/dang-ky' element={<AdminLayout><DangKy /></AdminLayout>} />
           <Route path='/admin/thong-tin' element={<AdminLayout><Profile></Profile></AdminLayout>}/>
+          <Route path='/upload-file-word' element={<AdminLayout><UploadFile /></AdminLayout>} />
         </Route>
         <Route element={<OnlyAdminPrivateRoute/>}>
           <Route path='/create-post' element={<AdminLayout><TaoBaiViet /></AdminLayout>} />

@@ -29,6 +29,10 @@ const postSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
+    isFile: {
+      type: Boolean,
+      default: false,
+    }
   },
   { timestamps: true }
 );

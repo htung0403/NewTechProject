@@ -8,7 +8,7 @@ const PublicLayout = ({ children }) => {
     <div>
       <Header />
       <main>{children}</main>
-      <Footer />
+      <Footer/>
     </div>
   );
 };

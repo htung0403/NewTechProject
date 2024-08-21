@@ -3,14 +3,14 @@ import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { AiOutlineSearch, AiOutlineRight } from 'react-icons/ai'
 import '../index.css';
-
+import logoImg from '../images/logo.png'
 
 export default function Header() {
   const path = useLocation().pathname;
   return (
-    <Navbar className='border-b-2 py-4 relative z-50'>
-        <Link to="/" className='self-center whitespace-nowrap text-sm sm:text-xl font-semibold'>
-          <img src="../images/logo.png" alt="Logo" className='h-8 sm:h-10' />
+    <Navbar className='border-b-2 fixed top-0 left-0 w-full z-50 bg-white'>
+        <Link to="/" className='self-center'>
+          <img src={logoImg} alt="Logo" style={{ height: '4rem'}} className='h-16 sm:h-8 md:ml-[100px] ml-3' />
         </Link>
         <Navbar.Toggle/>
         <Navbar.Collapse>
@@ -60,7 +60,7 @@ export default function Header() {
             </div>
           </div>
           <div className='relative group'>
-            <div className='py-3 font-bold text-[16px] font-sans cursor-pointer'>
+            <div className='py-3 font-bold text-[1rem] font-sans cursor-pointer'>
               CHƯƠNG TRÌNH
             </div>
             <div className="absolute hidden group-hover:block bg-white shadow-lg w-60">
@@ -71,21 +71,42 @@ export default function Header() {
               </div>
             </div>
           </div>
-          <Navbar.Link active={path === "/phuhuynh"} as={'div'}>
-            <Link to='/phuhuynh' className='font-bold text-[16px] font-sans'>
+          <div className='relative group'>
+            <div className='py-3 font-bold text-[16px] font-sans cursor-pointer'>
               PHỤ HUYNH
-            </Link>
-          </Navbar.Link>
-          <Navbar.Link active={path === "/hoatdong"} as={'div'}>
-            <Link to='/hoatdong' className='font-bold text-[16px] font-sans'>
+            </div>
+            <div className="absolute hidden group-hover:block bg-white shadow-lg w-60">
+              <div className="py-2">
+                <Link to='/phu-huynh/thong-bao-chung' className='block px-4 py-2 text-[14px] font-sans font-bold hover:bg-gray-200'>
+                THÔNG BÁO CHUNG
+                </Link>
+              </div>
+            </div>
+          </div>
+          <div className='relative group'>
+            <div className='py-3 font-bold text-[16px] font-sans cursor-pointer'>
               HOẠT ĐỘNG
+            </div>
+            <div className="absolute hidden group-hover:block bg-white shadow-lg w-60">
+              <div className="py-2">
+                <Link to='/tin-tuc' className='block px-4 py-2 text-[14px] font-sans font-bold hover:bg-gray-200'>
+                TIN TỨC
+                </Link>
+              </div>
+              <div className="py-2">
+                <Link to='/su-kien' className='block px-4 py-2 text-[14px] font-sans font-bold hover:bg-gray-200'>
+                SỰ KIỆN
+                </Link>
+              </div>
+            </div>
+          </div>
+          <div className='relative group'>
+            <Link to='/lien-he'>
+              <div className='py-3 font-bold text-[16px] font-sans cursor-pointer'>
+                LIÊN HỆ
+              </div>
             </Link>
-          </Navbar.Link>
-          <Navbar.Link active={path === "/lienhe"} as={'div'}>
-            <Link to='/lienhe' className='font-bold text-[16px] font-sans'>
-              LIÊN HỆ
-            </Link>
-          </Navbar.Link>
+          </div>
         </Navbar.Collapse>
         <form>
           <TextInput
@@ -94,7 +115,6 @@ export default function Header() {
             rightIcon={AiOutlineSearch}
             className='hidden lg:inline'
             >
-
           </TextInput>
         </form>
         <Button className='w-12 h-10 lg:hidden' color='gray' pill>

@@ -2,8 +2,12 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+#header {
+  transition: transform 0.3s ease-in-out;
+}
 body {
   height: 100vh;
+  padding-top: 80px;
 }
 .ql-editor{
   font-size: 1.05rem;

@@ -12,10 +12,10 @@ import { useState } from 'react';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { useNavigate } from 'react-router-dom';
-import mammoth from 'mammoth';
-import * as XLSX from 'xlsx';
 
 export default function CreatePost() {
+  document.title = `Tạo bài viết - TRƯỜNG TIỂU HỌC NAM PHƯỚC 1`;
+
   const [file, setFile] = useState(null);
   const [imageUploadProgress, setImageUploadProgress] = useState(null);
   const [imageUploadError, setImageUploadError] = useState(null);
@@ -81,6 +81,7 @@ export default function CreatePost() {
       console.log(error);
     }
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -89,7 +90,7 @@ export default function CreatePost() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, isFile: false }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -106,17 +107,6 @@ export default function CreatePost() {
     }
   };
 
-  const handleFileChange = async (e) => {
-  const file = e.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const arrayBuffer = event.target.result;
-      setFormData({ ...formData, file: arrayBuffer, fileName: file.name });
-    };
-    reader.readAsArrayBuffer(file);
-  }
-};
   return (
     <div className='p-3 max-w-[70rem] mx-auto min-h-screen'>
       <h1 className='text-center text-3xl my-7 font-semibold'>Tạo bài viết</h1>
@@ -186,11 +176,6 @@ export default function CreatePost() {
           onChange={(value) => {
             setFormData({ ...formData, content: value });
           }}
-        />
-        <input
-          type='file'
-          accept='.doc,.docx,.xls,.xlsx'
-          onChange={handleFileChange}
         />
         <Button type='submit' gradientDuoTone='purpleToPink'>
           Đăng
