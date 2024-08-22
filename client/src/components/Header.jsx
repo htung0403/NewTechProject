@@ -65,7 +65,7 @@ export default function Header() {
             </div>
             <div className="absolute hidden group-hover:block bg-white shadow-lg w-60">
               <div className="py-2">
-                <Link to='/chuong-trinh/chuong-trinh-tieu-chuan-bo-gddt' className='block px-4 py-2 text-[14px] font-sans font-bold hover:bg-gray-200'>
+                <Link to='/chuong-trinh-tieu-chuan-bo-gddt' className='block px-4 py-2 text-[14px] font-sans font-bold hover:bg-gray-200'>
                 CHƯƠNG TRÌNH TIÊU CHUẨN BỘ GIÁO DỤC VÀ ĐÀO TẠO.
                 </Link>
               </div>

@@ -2,7 +2,7 @@ import React from "react";
 
 export default function LienHe() {
   return (
-    <div className="pt-[70px] mx-auto max-w-[1300px]">
+    <div className="pt-[40px] mx-auto max-w-[1300px]">
       <div className="flex flex-row justify-start">
         <div className="w-3 h-10 mr-4 bg-cyan-600 border rounded-lg"></div>
         <h1 className="font-semibold text-[1.7rem] text-cyan-600">LIÊN HỆ</h1>

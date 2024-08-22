@@ -44,7 +44,7 @@ export default function AdminHeader() {
               </Link>
           </div>
           <div className='relative group'>
-              <Link to='/upload-file-word'>
+              <Link to='/upload-file'>
                 <div className='py-3 font-bold text-[16px] font-sans cursor-pointer'>
                   ĐĂNG TỆP PDF (.pdf)
                 </div>

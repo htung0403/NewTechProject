@@ -46,8 +46,8 @@ export default function UpdatePost() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    try {
-      const fetchPost = async () => {
+    const fetchPost = async () => {
+      try {
         const res = await fetch(`/api/post/getposts?postId=${postId}`);
         const data = await res.json();
         if (!res.ok) {
@@ -59,12 +59,12 @@ export default function UpdatePost() {
           setPublishError(null);
           setFormData(data.posts[0]);
         }
-      };
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
 
-      fetchPost();
-    } catch (error) {
-      console.log(error.message);
-    }
+    fetchPost();
   }, [postId]);
 
   const handleUpdloadImage = async () => {
@@ -103,10 +103,11 @@ export default function UpdatePost() {
       console.log(error);
     }
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(`/api/post/updatepost/${formData._id}/${currentUser._id}`, {
+      const res = await fetch(`/api/post/updatepost/${postId}/${currentUser._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -127,6 +128,7 @@ export default function UpdatePost() {
       setPublishError("Đã xảy ra lỗi");
     }
   };
+
   return (
     <div className="p-3 max-w-[70rem] mx-auto min-h-screen">
       <h1 className="text-center text-3xl my-7 font-semibold">
@@ -188,9 +190,17 @@ export default function UpdatePost() {
           <img
             src={formData.image}
             alt="upload"
-            className="w-full h-72 object-cover"
+            className="w-full h-72 object-contain"
           />
         )}
+        {formData?.isFile ? (
+        <iframe
+          src={formData.content}
+          title="File Preview"
+          width="100%"
+          height="800px"
+        />
+      ) : (
         <ReactQuill
           modules={module}
           theme="snow"
@@ -202,6 +212,7 @@ export default function UpdatePost() {
             setFormData({ ...formData, content: value });
           }}
         />
+      )}
         <Button type="submit" gradientDuoTone="purpleToPink">
           Đăng
         </Button>

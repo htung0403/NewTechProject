@@ -7,7 +7,6 @@ const AdminLayout = ({ children }) => {
     <div>
       <AdminHeader/>
       <main>{children}</main>
-      <footer>Admin Footer</footer>
     </div>
   );
 };

@@ -4,6 +4,9 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import background1 from "../images/background_card/IMG_0283.JPG";
 import background2 from "../images/background_card/image.png";
 import khoahocimg from "../images/khoahoc.png";
+import ngonnguimg from "../images/languages.png";
+import hocsinhimg from "../images/student.png";
+import giaithuongimg from "../images/badge.png";
 import line from "../images/line-min.png";
 import PostCard from "../components/PostCard";
 import { useState, useEffect } from "react";
@@ -20,6 +23,7 @@ const images = [image1, image2, image3, image4];
 
 export default function Home() {
   const [recentPosts, setRecentPosts] = useState(null);
+  
   document.title = `TRƯỜNG TIỂU HỌC NAM PHƯỚC 1`;
 
   useEffect(() => {
@@ -51,6 +55,7 @@ export default function Home() {
               src={image}
               alt={`Slide ${index}`}
               className="md:h-[700px] w-full object-cover z-1"
+              loading="lazy"
             />
           </div>
         ))}
@@ -127,7 +132,7 @@ export default function Home() {
               trường học tập vui vẻ, thân thiện và hiệu quả.”
             </p>
             <br />
-            <b className="text-left">- Hiệu trưởng Võ Quý</b>
+            <i className="text-left font-semibold">- Hiệu trưởng Võ Quý</i>
           </div>
           <div className="image-column">
             <img
@@ -161,7 +166,7 @@ export default function Home() {
       </div>
       <div className="container">
         <div className="flex flex-wrap justify-around md:ml-[160px] mt-[40px] ml-0">
-          <div className="w-full md:w-1/4 flex flex-col justify-center items-center mb-6 md:mb-0">
+          <div className="w-full md:w-1/5 flex flex-col justify-center items-center mb-6 md:mb-0">
             <img
               src={khoahocimg}
               alt="Description"
@@ -175,13 +180,25 @@ export default function Home() {
               <br /> (Kangaroo, IMAS, AMO,…)
             </p>
           </div>
-          <div className="w-full md:w-1/4 flex flex-col justify-center items-center mb-6 md:mb-0">
+          <div className="w-full md:w-1/5 flex flex-col justify-center items-center mb-6 md:mb-0">
             <img
-              src={khoahocimg}
+              src={ngonnguimg}
               alt="Description"
               className="w-[100px] h-auto object-cover mb-4"
             />
-            <b className="text-[30px] mt-3">Khoa Học</b>
+            <b className="text-[30px] mt-3">Ngoại ngữ</b>
+            <img src={line} alt="line" className="w-[130px] mt-3" />
+            <p className="text-center mt-2 text-[17px]">
+            94% số học sinh hoàn thành tốt chương trình Ngoại ngữ 
+            </p>
+          </div>
+          <div className="w-full md:w-1/5 flex flex-col justify-center items-center mb-6 md:mb-0">
+            <img
+              src={hocsinhimg}
+              alt="Description"
+              className="w-[100px] h-auto object-cover mb-4"
+            />
+            <b className="text-[30px] mt-3">Học sinh giỏi</b>
             <img src={line} alt="line" className="w-[130px] mt-3" />
             <p className="text-center mt-2 text-[17px]">
               Huy chương Vàng, Bạc & các giải Nhất,
@@ -189,32 +206,18 @@ export default function Home() {
               <br /> (Kangaroo, IMAS, AMO,…)
             </p>
           </div>
-          <div className="w-full md:w-1/4 flex flex-col justify-center items-center mb-6 md:mb-0">
+          <div className="w-full md:w-1/5 flex flex-col justify-center items-center mb-6 md:mb-0">
             <img
-              src={khoahocimg}
+              src={giaithuongimg}
               alt="Description"
               className="w-[100px] h-auto object-cover mb-4"
             />
-            <b className="text-[30px] mt-3">Khoa Học</b>
+            <b className="text-[30px] mt-3">Giải thưởng</b>
             <img src={line} alt="line" className="w-[130px] mt-3" />
             <p className="text-center mt-2 text-[17px]">
-              Huy chương Vàng, Bạc & các giải Nhất,
-              <br /> Đặc biệt tại cuộc thi Toán Quốc tế
-              <br /> (Kangaroo, IMAS, AMO,…)
-            </p>
-          </div>
-          <div className="w-full md:w-1/4 flex flex-col justify-center items-center mb-6 md:mb-0">
-            <img
-              src={khoahocimg}
-              alt="Description"
-              className="w-[100px] h-auto object-cover mb-4"
-            />
-            <b className="text-[30px] mt-3">Khoa Học</b>
-            <img src={line} alt="line" className="w-[130px] mt-3" />
-            <p className="text-center mt-2 text-[17px]">
-              Huy chương Vàng, Bạc & các giải Nhất,
-              <br /> Đặc biệt tại cuộc thi Toán Quốc tế
-              <br /> (Kangaroo, IMAS, AMO,…)
+              Đạt giải Nhất, Nhì, Ba tại các cuộc thi cấp tỉnh, cấp huyện
+              <br /> Đặc biệt giải ba tại cuộc thi IOE cấp quốc gia
+              <br />
             </p>
           </div>
         </div>

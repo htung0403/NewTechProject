@@ -6,6 +6,7 @@ import { Alert, Button, FileInput, Select, TextInput } from 'flowbite-react';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { useNavigate } from 'react-router-dom';
+import logoImg from "../images/logo.png";
 
 const UploadFile = () => {
   const [file, setFile] = useState(null);
@@ -70,12 +71,13 @@ const UploadFile = () => {
           title: formData.title,
           content: fileUrl,
           category: formData.category,
-          image: fileUrl,
+          image: logoImg,
           isFile: true,
         }),
       });
       if (res.ok) {
         const data = await res.json();
+        console.log('Post created:', data); // Kiểm tra phản hồi từ API
         setUploadError(null);
         navigate(`/${data.slug}`);
       } else {

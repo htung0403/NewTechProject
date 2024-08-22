@@ -90,7 +90,7 @@ export default function DashPosts() {
               <TableHeadCell>Danh mục</TableHeadCell>
               <TableHeadCell>Xóa</TableHeadCell>
               <TableHeadCell>
-                <span>Edit</span>
+                <span>Chỉnh sửa</span>
               </TableHeadCell>
             </TableHead>
             {userPosts.map((post) => (
