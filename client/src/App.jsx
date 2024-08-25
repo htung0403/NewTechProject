@@ -7,7 +7,6 @@ import Dashboard from './admin/Dashboard';
 import LienHe from './pages/LienHe';
 import TuyenSinh from './pages/TuyenSinh';
 import DangNhap from './admin/DangNhap';
-import Profile from './admin/Profile';
 import PublicLayout from './layout/PublicLayout';
 import AdminLayout from './layout/AdminLayout';
 import './index.css';
@@ -19,6 +18,9 @@ import PostPage from './pages/PostPage';
 import ThuNgo from './pages/ThuNgo';
 import UploadFile from './admin/UploadFile';
 import ChuongTrinhTieuChuanBGD from './pages/ChuongTrinhTieuChuanBGD';
+import TinTuc from './pages/TinTuc';
+import SuKien from './pages/SuKien';
+import Editor from './admin/components/Editor';
 
 export default function App() {
   return (
@@ -31,15 +33,17 @@ export default function App() {
         <Route path='/gioi-thieu/thu-ngo' element={<PublicLayout><ThuNgo /></PublicLayout>} />
         <Route path='/lien-he' element={<PublicLayout><LienHe /></PublicLayout>} />
         <Route path='/tuyensinh' element={<PublicLayout><TuyenSinh /></PublicLayout>} />
+        <Route path='/tin-tuc' element={<PublicLayout><TinTuc /></PublicLayout>} />
+        <Route path='/su-kien' element={<PublicLayout><SuKien /></PublicLayout>} />
         <Route path='/chuong-trinh-tieu-chuan-bo-gddt' element={<PublicLayout><ChuongTrinhTieuChuanBGD /></PublicLayout>} />
         <Route path='/admin/dang-nhap' element={<AdminLayout><DangNhap /></AdminLayout>} />
         <Route path='/:postSlug' element= {<PublicLayout><PostPage/></PublicLayout>} />
+        <Route path='/editor' element= {<PublicLayout><Editor/></PublicLayout>} />
         {/* Admin Routes */}
         <Route element={<PrivateRoute/>}>
           <Route path='/dashboard' element={<AdminLayout><Dashboard /></AdminLayout>} />
           <Route path='/admin' element={<AdminLayout><Dashboard /></AdminLayout>} />
           <Route path='/admin/dang-ky' element={<AdminLayout><DangKy /></AdminLayout>} />
-          <Route path='/admin/thong-tin' element={<AdminLayout><Profile></Profile></AdminLayout>}/>
           <Route path='/upload-file' element={<AdminLayout><UploadFile /></AdminLayout>} />
         </Route>
         <Route element={<OnlyAdminPrivateRoute/>}>

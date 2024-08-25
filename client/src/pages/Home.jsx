@@ -11,14 +11,10 @@ import line from "../images/line-min.png";
 import PostCard from "../components/PostCard";
 import { useState, useEffect } from "react";
 
-const image1 =
-  "https://firebasestorage.googleapis.com/v0/b/namphuoc1-web.appspot.com/o/ImageSlider%2FDJI_0406.JPG?alt=media&token=ad4c2996-4c74-4a7e-a721-48374480e2df";
-const image2 =
-  "https://firebasestorage.googleapis.com/v0/b/namphuoc1-web.appspot.com/o/ImageSlider%2FIMG_1121.JPG?alt=media&token=2a3e68d4-368b-4b46-beb7-e75f3546a756";
-const image3 =
-  "https://firebasestorage.googleapis.com/v0/b/namphuoc1-web.appspot.com/o/ImageSlider%2FIMG_2015.JPG?alt=media&token=5103338a-3d2a-468b-9235-c7bc3b67a541";
-const image4 =
-  "https://firebasestorage.googleapis.com/v0/b/namphuoc1-web.appspot.com/o/ImageSlider%2FIMG_7133.JPG?alt=media&token=c258784f-8d45-4de3-93ce-ef79ef954b2f";
+import image1 from "../images/slider/DJI_0406.JPG";
+import image2 from "../images/slider/IMG_1121.JPG";
+import image3 from "../images/slider/IMG_2015.JPG";
+import image4 from "../images/slider/IMG_7133.JPG";
 const images = [image1, image2, image3, image4];
 
 export default function Home() {
@@ -192,13 +188,13 @@ export default function Home() {
             94% số học sinh hoàn thành tốt chương trình Ngoại ngữ 
             </p>
           </div>
-          <div className="w-full md:w-1/5 flex flex-col justify-center items-center mb-6 md:mb-0">
+          <div className="w-full md:w-1/4 flex flex-col justify-center items-center mb-6 md:mb-0">
             <img
               src={hocsinhimg}
               alt="Description"
               className="w-[100px] h-auto object-cover mb-4"
             />
-            <b className="text-[30px] mt-3">Học sinh giỏi</b>
+            <b className="text-[30px] mt-3">Học sinh năng khiếu</b>
             <img src={line} alt="line" className="w-[130px] mt-3" />
             <p className="text-center mt-2 text-[17px]">
               Huy chương Vàng, Bạc & các giải Nhất,

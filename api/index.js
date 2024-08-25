@@ -7,6 +7,7 @@ import postRoutes from './routes/post.route.js';
 import fileRoutes from './routes/file.route.js'; 
 import cookieParser from "cookie-parser";
 import path from 'path';
+import bodyParser from "body-parser";
 
 
 dotenv.config();
@@ -29,6 +30,9 @@ app.use(cookieParser());
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
 });
+
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);

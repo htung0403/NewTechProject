@@ -23,19 +23,52 @@ body {
 
 .post-content {
   margin-bottom: 0.5rem;
+  text-align: left;
+}
+.post-content img {
+  display: inline-block;
+  margin: 5px;
+  vertical-align: middle;
+  align-self: center;
+}
+@media (max-width: 600px) {
+  .post-content img {
+    width: 100%; /* Đặt chiều rộng của hình ảnh là 100% */
+    height: auto; /* Đảm bảo tỷ lệ khung hình của hình ảnh */
+  }
+}
+.post-content p:has(img) {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 0 auto;
+}
+
+.post-content p img {
+  margin: 5px;
 }
 .post-content h1 {
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: 2em;
+  font-weight: 500;
   margin: 1.5rem 0;
 }
 
 .post-content h2 {
-  font-size: 1.4rem;
-  font-weight: 600;
+  font-size: 1.5rem;
+  font-weight: 500;
   margin: 1.25rem 0;
 }
 
+.post-content h3 {
+  font-size: 1.25rem;
+  font-weight: 400;
+  margin: 1rem 0;
+}
+.post-content ul,
+.post-content ol {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
 .post-content a {
   color: rgb(73, 149, 199);
   text-decoration: none;
@@ -43,5 +76,20 @@ body {
 
 .post-content a:hover {
   text-decoration: underline;
+}
+
+.post-content .ql-align-center {
+  text-align: center;
+}
+
+.post-content .ql-align-right {
+  text-align: right;
+}
+
+.post-content .ql-align-justify {
+  text-align: justify;
+}
+.post-content .ql-font-serif {
+  font-family: Georgia, 'Times New Roman', Times, serif;
 }
 

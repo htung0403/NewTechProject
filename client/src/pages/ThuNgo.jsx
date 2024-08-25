@@ -8,9 +8,8 @@ export default function ThuNgo() {
         <div className="w-3 h-10 mr-4 bg-cyan-600 border rounded-lg"></div>
         <h1 className="font-semibold text-[1.7rem] text-cyan-600">THƯ NGÕ</h1>
       </div>
-      <div className="bg-amber-50 mt-4 p-6 rounded-lg text-lg h-[1000px]">
-        <img src={quotationMarkImg} alt="quotation" className="top-[180px] end-[20%] w-12 h-12"></img>
-        <iframe src="https://docs.google.com/document/d/1sjZ56jN1FyQRmsz6RHVlFhXHgcck2DW1/pub?embedded=true" className="w-full h-full"></iframe>
+      <div className="bg-amber-50 flex justify-end mt-4 p-6 rounded-lg text-lg h-[1000px]">
+        <img src={quotationMarkImg} alt="quotation" className="top-[180px] w-12 h-12"></img>
       </div>
     </div>
   );

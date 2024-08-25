@@ -1,6 +1,7 @@
 import { Alert, Button, FileInput, Select, TextInput } from 'flowbite-react';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import ReactQuill, { Quill } from 'react-quill';
+import imageResize from 'quill-image-resize-module-react';
+import "quill/dist/quill.snow.css";
 import {
   getDownloadURL,
   getStorage,
@@ -12,8 +13,11 @@ import { useState } from 'react';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { useNavigate } from 'react-router-dom';
+import './styles.css'
 
 export default function CreatePost() {
+  Quill.register('modules/imageResize', imageResize);
+
   document.title = `Tạo bài viết - TRƯỜNG TIỂU HỌC NAM PHƯỚC 1`;
 
   const [file, setFile] = useState(null);
@@ -28,20 +32,21 @@ export default function CreatePost() {
     ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
     ['blockquote'],
     ['link', 'image', 'video'],
-  
     [{ 'header': 1 }, { 'header': 2 }],               // custom button values
     [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
     [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
     [{ 'direction': 'rtl' }],                         // text direction
-  
-  
+    [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown for font size
     [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
     [{ 'align': [] }],
-  
     ['clean']                                         // remove formatting button
   ];
-  const module = {
+
+  const modules = {
     toolbar: toolbarOptions,
+    imageResize: {
+      modules: ["Resize", "DisplaySize", "Toolbar"],
+    },
   };
   const navigate = useNavigate();
 
@@ -53,14 +58,13 @@ export default function CreatePost() {
       }
       setImageUploadError(null);
       const storage = getStorage(app);
-      const fileName = new Date().getTime() + '-' + file.name;
+      const fileName = `postImages/${new Date().getTime()}-${file.name}`;
       const storageRef = ref(storage, fileName);
       const uploadTask = uploadBytesResumable(storageRef, file);
       uploadTask.on(
         'state_changed',
         (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           setImageUploadProgress(progress.toFixed(0));
         },
         (error) => {
@@ -85,6 +89,7 @@ export default function CreatePost() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      console.log(formData);
       const res = await fetch('/api/post/create', {
         method: 'POST',
         headers: {
@@ -164,19 +169,19 @@ export default function CreatePost() {
           <img
             src={formData.image}
             alt='upload'
-            className='w-full h-72 object-cover'
+            className='w-fit self-center h-72 object-contain border-2 border-slate-300'
+
           />
         )}
-        <ReactQuill
-          modules={module}
-          theme='snow'
-          placeholder='Nội dung...'
-          className='min-h-72 mb-12'
-          required
-          onChange={(value) => {
-            setFormData({ ...formData, content: value });
-          }}
-        />
+        <div className="quill-editor">
+          <ReactQuill
+            theme="snow"
+            modules={modules}
+            formats={CreatePost.formats}
+            placeholder=""
+            onChange={(content) => setFormData({ ...formData, content })}
+          />
+        </div>
         <Button type='submit' gradientDuoTone='purpleToPink'>
           Đăng
         </Button>
@@ -189,3 +194,10 @@ export default function CreatePost() {
     </div>
   );
 }
+
+CreatePost.formats = [
+  'header', 'font', 'size',
+  'bold', 'italic', 'underline', 'strike', 'blockquote',
+  'list', 'bullet', 'indent',
+  'link', 'image', 'video', 'color', 'background', 'align'
+];

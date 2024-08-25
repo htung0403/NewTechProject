@@ -1,6 +1,6 @@
 import { Alert, Button, FileInput, Select, TextInput } from "flowbite-react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+import ReactQuill, { Quill } from 'react-quill';
+import imageResize from 'quill-image-resize-module-react';
 import {
   getDownloadURL,
   getStorage,
@@ -13,8 +13,12 @@ import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import './styles.css'
 
 export default function UpdatePost() {
+  Quill.register('modules/imageResize', imageResize);
+  document.title = `Sửa bài viết - TRƯỜNG TIỂU HỌC NAM PHƯỚC 1`;
+
   const { currentUser } = useSelector((state) => state.user);
   const [file, setFile] = useState(null);
   const [imageUploadProgress, setImageUploadProgress] = useState(null);
@@ -42,6 +46,9 @@ export default function UpdatePost() {
   ];
   const module = {
     toolbar: toolbarOptions,
+    imageResize: {
+      modules: ["Resize", "DisplaySize"],
+    },
   };
   const navigate = useNavigate();
 
@@ -201,6 +208,7 @@ export default function UpdatePost() {
           height="800px"
         />
       ) : (
+        <div className="quill-editor">
         <ReactQuill
           modules={module}
           theme="snow"
@@ -212,6 +220,7 @@ export default function UpdatePost() {
             setFormData({ ...formData, content: value });
           }}
         />
+        </div>
       )}
         <Button type="submit" gradientDuoTone="purpleToPink">
           Đăng

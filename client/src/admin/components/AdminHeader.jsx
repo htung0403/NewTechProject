@@ -51,25 +51,13 @@ export default function AdminHeader() {
               </Link>
           </div>
         </Navbar.Collapse>
-        <form>
-          <TextInput
-            type='text'
-            placeholder='Tìm kiếm...'
-            rightIcon={AiOutlineSearch}
-            className='hidden lg:inline'
-            >
-
-          </TextInput>
-        </form>
-        <Button className='w-12 h-10 lg:hidden' color='gray' pill>
-          <AiOutlineSearch/>
-        </Button>
         {currentUser? (
             <Dropdown
             arrowIcon= {false}
             inline
             label= {
                 <Avatar
+                className='cursor-pointer border-slate-600 border-2'
                 alt='user' 
                 img={currentUser.profilePicture}
                 rounded/>

@@ -17,19 +17,15 @@ export default function PostPage() {
         setLoading(true);
         const res = await fetch(`/api/post/getposts?slug=${postSlug}`);
         const data = await res.json();
-        console.log("Fetched post data:", data); // Debugging line
         if (!res.ok) {
           setError(true);
           setLoading(false);
           return;
         }
-        if (res.ok) {
-          setPost(data.posts[0]);
-          setLoading(false);
-          setError(false);
-        }
+        setPost(data.posts[0]);
+        setLoading(false);
+        setError(false);
       } catch (error) {
-        console.error("Error fetching post:", error); // Debugging line
         setError(true);
         setLoading(false);
       }
@@ -66,7 +62,7 @@ export default function PostPage() {
     );
   return (
     <main className="p-3 flex flex-col max-w-6xl mx-auto min-h-screen">
-      <h1 className="text-3xl mt-10 p-3 text-center max-w-2xl mx-auto lg:text-4xl">
+      <h1 className="text-3xl mt-10 p-3 font-semibold font-serif text-center max-w-2xl mx-auto lg:text-4xl">
         {post && post.title}
       </h1>
       <Link
@@ -88,8 +84,12 @@ export default function PostPage() {
         <span>
           {post && new Date(post.createdAt).toLocaleDateString("en-GB")}
         </span>
+        <span>
+          {" "}
+          • {post && post.user && post.user.fullName}
+        </span>
       </div>
-      <div className="p-3 max-w-6xl mx-auto w-full post-content">
+      <div className="p-3 max-w-[68rem] mx-auto w-full post-content">
         {post?.isFile ? (
           <iframe
             src={post.content}
