@@ -1,17 +1,35 @@
-import React, { useEffect, useState } from 'react';
-import PostCard from '../components/PostCard';
+import React, { useState, useEffect } from 'react';
+import PostCardSquare from '../components/PostCardSquare';
 
-export default function TinTuc() {
+const TinTuc = () => {
+  document.title = `TIN TỨC - TRƯỜNG TIỂU HỌC NAM PHƯỚC 1`;
+
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showMore, setShowMore] = useState(true);
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch('/api/posts?category=tin-tuc');
+        const response = await fetch(
+          "/api/post/getposts?category=tin-tuc"
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const contentType = response.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+          throw new Error("Received non-JSON response");
+        }
+
         const data = await response.json();
         setPosts(data.posts);
+        if(data.posts.length<9){
+          setShowMore(false);
+        }
       } catch (error) {
         setError(error.message);
       } finally {
@@ -22,17 +40,52 @@ export default function TinTuc() {
     fetchPosts();
   }, []);
 
+  const handleShowMore = async () => {
+    const startIndex = posts.length;
+    try {
+        const res = await fetch(`/api/post/getposts?category=tin-tuc&startIndex=${startIndex}`);
+        const data = await res.json();
+        if (res.ok) {
+            setPosts((prev) => [...prev, ...data.posts]);
+            if(data.posts.length<9){
+              setShowMore(false);
+            }
+        }
+    } catch (error) {
+        console.log(error.message);
+    }
+  };
+
+  console.log("Posts:", posts);
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Tin Tức</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+    <div className="pt-[70px] mx-auto max-w-[1300px] px-4 sm:px-6 lg:px-8">
+      <div className="flex flex-row justify-start">
+        <div className="w-3 h-10 mr-4 bg-cyan-600 border rounded-lg"></div>
+        <h1 className="font-semibold text-[1.7rem] text-cyan-600">
+          TIN TỨC CỦA TRƯỜNG
+        </h1>
+      </div>
+      <div className="grid grid-cols-1 gap-4 mt-6">
         {posts.map((post) => (
-          <PostCard key={post._id} post={post} />
+          <PostCardSquare key={post._id} post={post} />
         ))}
       </div>
+      {showMore && (
+        <div className="flex justify-center">
+          <button
+            onClick={handleShowMore}
+            className="w-full text-teal-500 self-center text-sm py-7"
+          >
+            Xem thêm
+          </button>
+        </div>
+      )}
     </div>
   );
 }
+
+export default TinTuc;

@@ -54,6 +54,19 @@ export default function PostPage() {
     }
   }, [post]);
 
+  const getCategoryDisplayName = (category) => {
+    switch (category) {
+      case 'tin-tuc':
+        return 'Tin Tức';
+      case 'su-kien':
+        return 'Sự Kiện';
+      case 'phu-huynh':
+        return 'Phụ Huynh';
+      default:
+        return category;
+    }
+  };
+
   if (loading)
     return (
       <div className="flex justify-between items-center min-h-screen">
@@ -70,23 +83,19 @@ export default function PostPage() {
         className="self-center mt-5"
       >
         <Button color="gray" pill size="xs">
-          {post && post.category}
+          {post && getCategoryDisplayName(post.category)}
         </Button>
       </Link>
       {!post?.isFile && (
         <img
           src={post && post.image}
           alt={post && post.title}
-          className="mt-10 p-3 max-h-[600px] w-full object-cover"
+          className="mt-10 p-3 max-h-[600px] w-full object-contain"
         />
       )}
       <div className="flex justify-start p-3 border-b border-slate-500 mx-auto max-w-2xl text-sm italic">
         <span>
           {post && new Date(post.createdAt).toLocaleDateString("en-GB")}
-        </span>
-        <span>
-          {" "}
-          • {post && post.user && post.user.fullName}
         </span>
       </div>
       <div className="p-3 max-w-[68rem] mx-auto w-full post-content">

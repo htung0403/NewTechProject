@@ -2,6 +2,8 @@ import React from "react";
 import img from "../images/background_card/image.png";
 
 export default function ChuongTrinhTieuChuanBGD() {
+  document.title = `CHƯƠNG TRÌNH TIÊU CHUẨN BỘ GIÁO DỤC VÀ ĐÀO TẠO - TRƯỜNG TIỂU HỌC NAM PHƯỚC 1`;
+
   return (
     <div className="pt-[40px] mx-auto max-w-[1300px]">
       <div className="flex flex-row justify-start">

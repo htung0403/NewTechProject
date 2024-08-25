@@ -12,8 +12,8 @@ import PostCard from "../components/PostCard";
 import { useState, useEffect } from "react";
 
 import image1 from "../images/slider/DJI_0406.JPG";
-import image2 from "../images/slider/IMG_1121.JPG";
-import image3 from "../images/slider/IMG_2015.JPG";
+import image2 from "../images/slider/IMG_1121-min.JPG";
+import image3 from "../images/slider/IMG_2015-min.JPG";
 import image4 from "../images/slider/IMG_7133.JPG";
 const images = [image1, image2, image3, image4];
 

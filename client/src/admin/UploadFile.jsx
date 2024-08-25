@@ -13,7 +13,10 @@ const UploadFile = () => {
   const [fileUrl, setFileUrl] = useState('');
   const [uploadError, setUploadError] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(null);
-  const [formData, setFormData] = useState({ title: '', category: 'Files' });
+  const [formData, setFormData] = useState({ title: ''});
+  const [category, setCategory] = useState('uncategorized');
+  const [error, setError] = useState('');
+
   const navigate = useNavigate();
 
   const handleUploadFile = async () => {
@@ -55,6 +58,10 @@ const UploadFile = () => {
   };
 
   const handleCreatePost = async () => {
+    if (category === 'uncategorized') {
+      setError('Vui lòng chọn một danh mục.');
+      return;
+    }
     if (!fileUrl) {
       setUploadError('Chưa tải lên tệp');
       return;
@@ -103,12 +110,17 @@ const UploadFile = () => {
             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
           />
           <Select
-            onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+            value={category}
+            onChange={(e) => {
+              setCategory(e.target.value);
+              setFormData({ ...formData, category: e.target.value });
+            }}
+            required
           >
-            <option value='Files'>Chọn một danh mục</option>
-            <option value='Tin tức'>Tin tức</option>
-            <option value='Sự kiện'>Sự kiện</option>
-            <option value='Phụ huynh'>Phụ huynh</option>
+            <option value='uncategorized'>Chọn một danh mục</option>
+            <option value='tin-tuc'>Tin tức</option>
+            <option value='su-kien'>Sự kiện</option>
+            <option value='phu-huynh'>Phụ huynh</option>
           </Select>
         </div>
         <div className='flex gap-4 items-center justify-between border-4 border-blue-300 border-dashed p-3'>
@@ -151,6 +163,11 @@ const UploadFile = () => {
         <Button type='submit' gradientDuoTone='purpleToPink'>
           Đăng
         </Button>
+        {error && (
+          <Alert className='mt-5' color='failure'>
+            {error}
+          </Alert>
+        )}
       </form>
     </div>
   );

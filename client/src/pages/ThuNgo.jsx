@@ -1,6 +1,8 @@
 import React from "react";
 
 export default function ThuNgo() {
+  document.title = `THƯ NGÕ - TRƯỜNG TIỂU HỌC NAM PHƯỚC 1`;
+
   const quotationMarkImg = "https://firebasestorage.googleapis.com/v0/b/namphuoc1-web.appspot.com/o/quotation-mark-min.png?alt=media&token=c67acbf3-e857-4699-bdd5-d27682427aef";
   return (
     <div className="pt-[70px] mx-auto max-w-[1300px]">

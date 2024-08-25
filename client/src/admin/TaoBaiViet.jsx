@@ -25,6 +25,8 @@ export default function CreatePost() {
   const [imageUploadError, setImageUploadError] = useState(null);
   const [formData, setFormData] = useState({});
   const [publishError, setPublishError] = useState(null);
+  const [category, setCategory] = useState('uncategorized');
+  const [error, setError] = useState('');
 
   const toolbarOptions = [
     [{ 'font': [] }],
@@ -88,6 +90,10 @@ export default function CreatePost() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (category === 'uncategorized') {
+      setError('Vui lòng chọn một danh mục.');
+      return;
+    }
     try {
       console.log(formData);
       const res = await fetch('/api/post/create', {
@@ -127,15 +133,18 @@ export default function CreatePost() {
               setFormData({ ...formData, title: e.target.value })
             }
           />
-          <Select
-            onChange={(e) =>
-              setFormData({ ...formData, category: e.target.value })
-            }
+           <Select
+            value={category}
+            onChange={(e) => {
+              setCategory(e.target.value);
+              setFormData({ ...formData, category: e.target.value });
+            }}
+            required
           >
-            <option value='Chưa phân loại'>Chọn một danh mục</option>
-            <option value='Tin tức'>Tin tức</option>
-            <option value='Sự kiện'>Sự kiện</option>
-            <option value='Phụ huynh'>Phụ huynh</option>
+            <option value='uncategorized'>Chọn một danh mục</option>
+            <option value='tin-tuc'>Tin tức</option>
+            <option value='su-kien'>Sự kiện</option>
+            <option value='phu-huynh'>Phụ huynh</option>
           </Select>
         </div>
         <div className='flex gap-4 items-center justify-between border-4 border-blue-300 border-dashed p-3'>
@@ -188,6 +197,11 @@ export default function CreatePost() {
         {publishError && (
           <Alert className='mt-5' color='failure'>
             {publishError}
+          </Alert>
+        )}
+        {error && (
+          <Alert className='mt-5' color='failure'>
+            {error}
           </Alert>
         )}
       </form>
