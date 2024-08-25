@@ -6,7 +6,7 @@ import {
   Dropdown,
 } from "flowbite-react";
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AiOutlineSearch, AiOutlineRight } from "react-icons/ai";
 import "../index.css";
 import logoImg from "../images/logo.png";
@@ -14,15 +14,24 @@ import logoImg from "../images/logo.png";
 export default function Header() {
   const path = useLocation().pathname;
   const location = useLocation();
-  const [searchTerm, setSerchTerm] = useState('');
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState('');
   console.log(searchTerm);
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const searchTermFromUrl = urlParams.get('searchTerm');
-    if(searchTermFromUrl) {
-      setSerchTerm(searchTermFromUrl);
+    if (searchTermFromUrl) {
+      setSearchTerm(searchTermFromUrl);
     }
   }, [location.search]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set('searchTerm', searchTerm);
+    const searchQuery = urlParams.toString();
+    navigate(`/search?${searchQuery}`);
+  };
   return (
     <Navbar className="border-b-2 fixed top-0 left-0 w-full z-50 bg-white">
       <Link to="/" className="self-center">
@@ -159,15 +168,17 @@ export default function Header() {
           </Link>
         </div>
       </Navbar.Collapse>
-      <form>
+      <form onSubmit={handleSubmit}>
         <TextInput
-          type="text"
-          placeholder="Tìm kiếm..."
+          type='text'
+          placeholder='Search...'
           rightIcon={AiOutlineSearch}
-          className="hidden lg:inline"
-        ></TextInput>
+          className='hidden lg:inline'
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
       </form>
-      <Button className="w-12 h-10 lg:hidden" color="gray" pill>
+      <Button className='w-12 h-10 lg:hidden' color='gray' pill>
         <AiOutlineSearch />
       </Button>
     </Navbar>

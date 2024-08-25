@@ -9,10 +9,10 @@ export default function FooterCom() {
                 <div>
                     <Footer.Title className="text-black font-bold" title="Thông tin"/>
                     <p><strong>Hiệu trưởng:</strong> Võ Quý
-                    <br/><strong>Website:</strong> http://doanthidiem.edu.vn / <strong>Email:</strong> c1doanthidiem-ntl@hanoiedu.vn
+                    <br/><strong>Website:</strong> http://namphuoc1.edu.vn / <strong>Email:</strong> voquy711np1@gmail.com
                     <br/><strong>Số tài khoản:</strong>
-                    <br/>1462 4311 200 00065 tại Ngân hàng Nông nghiệp và Phát triển nông thôn - Chi nhánh Tây Đô
-                    <br/>Đơn vị thụ hưởng: Trường Tiểu học Đoàn Thị Điểm - Hà Nội
+                    {/* <br/>1462 4311 200 00065 tại Ngân hàng Nông nghiệp và Phát triển nông thôn - Chi nhánh Tây Đô
+                    <br/>Đơn vị thụ hưởng: Trường Tiểu học Đoàn Thị Điểm - Hà Nội */}
                     <br/>Địa chỉ email: info@dtd.edu.vn</p>
                 </div>
                 <div>

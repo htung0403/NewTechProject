@@ -20,7 +20,7 @@ import UploadFile from './admin/UploadFile';
 import ChuongTrinhTieuChuanBGD from './pages/ChuongTrinhTieuChuanBGD';
 import TinTuc from './pages/TinTuc';
 import SuKien from './pages/SuKien';
-import Editor from './admin/components/Editor';
+import Search from './pages/Search';
 
 export default function App() {
   return (
@@ -38,7 +38,7 @@ export default function App() {
         <Route path='/chuong-trinh-tieu-chuan-bo-gddt' element={<PublicLayout><ChuongTrinhTieuChuanBGD /></PublicLayout>} />
         <Route path='/admin/dang-nhap' element={<AdminLayout><DangNhap /></AdminLayout>} />
         <Route path='/:postSlug' element= {<PublicLayout><PostPage/></PublicLayout>} />
-        <Route path='/editor' element= {<PublicLayout><Editor/></PublicLayout>} />
+        <Route path='/search' element= {<PublicLayout><Search/></PublicLayout>} />
         {/* Admin Routes */}
         <Route element={<PrivateRoute/>}>
           <Route path='/dashboard' element={<AdminLayout><Dashboard /></AdminLayout>} />
