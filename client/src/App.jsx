@@ -21,6 +21,11 @@ import ChuongTrinhTieuChuanBGD from './pages/ChuongTrinhTieuChuanBGD';
 import TinTuc from './pages/TinTuc';
 import SuKien from './pages/SuKien';
 import Search from './pages/Search';
+import CacToChuyenMon from './pages/CacToChuyenMon';
+import BanChapHanhCongDoan from './pages/BanChapHanhCongDoan';
+import BanGiamHieu from './pages/BanGiamHieu';
+import ChiBoDang from './pages/ChiBoDang';
+import PhuHuynh from './pages/PhuHuynh';
 
 export default function App() {
   return (
@@ -36,6 +41,11 @@ export default function App() {
         <Route path='/tin-tuc' element={<PublicLayout><TinTuc /></PublicLayout>} />
         <Route path='/su-kien' element={<PublicLayout><SuKien /></PublicLayout>} />
         <Route path='/chuong-trinh-tieu-chuan-bo-gddt' element={<PublicLayout><ChuongTrinhTieuChuanBGD /></PublicLayout>} />
+        <Route path='/cac-to-chuyen-mon' element={<PublicLayout><CacToChuyenMon /></PublicLayout>} />
+        <Route path='/ban-chap-hanh-cong-doan' element={<PublicLayout><BanChapHanhCongDoan /></PublicLayout>} />
+        <Route path='/ban-giam-hieu' element={<PublicLayout><BanGiamHieu /></PublicLayout>} />
+        <Route path='/chi-bo-dang' element={<PublicLayout><ChiBoDang /></PublicLayout>} />
+        <Route path='/phu-huynh/thong-bao-chung' element={<PublicLayout><PhuHuynh /></PublicLayout>} />
         <Route path='/admin/dang-nhap' element={<AdminLayout><DangNhap /></AdminLayout>} />
         <Route path='/:postSlug' element= {<PublicLayout><PostPage/></PublicLayout>} />
         <Route path='/search' element= {<PublicLayout><Search/></PublicLayout>} />

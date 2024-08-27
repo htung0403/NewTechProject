@@ -94,7 +94,7 @@ export default function DangNhap() {
         </div>
       </div>
       
-      <div className="flex justify-center items-center mt-10">
+      {/* <div className="flex justify-center items-center mt-10">
         <div className="inline-flex items-center rounded-full bg-gray-100 px-4 py-2">
           <span className="text-gray-700 font-medium">Quên mật khẩu ?</span>
           <span className="ml-2 text-gray-500">ĐĂNG KÝ</span>
@@ -106,7 +106,7 @@ export default function DangNhap() {
           </button>
           </Link>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

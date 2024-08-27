@@ -5,9 +5,13 @@
 #header {
   transition: transform 0.3s ease-in-out;
 }
+
 body {
-  height: 100vh;
   padding-top: 80px;
+}
+.footer-absolute {
+  position: absolute;
+  bottom: 0;
 }
 .ql-editor{
   font-size: 1.05rem;
@@ -15,6 +19,7 @@ body {
 
 .group:hover > .group-hover\:block {
   display: block;
+  z-index: 999;
 }
 
 .sub-menu:hover > .sub-menu-hover\:block {
@@ -92,4 +97,3 @@ body {
 .post-content .ql-font-serif {
   font-family: Georgia, 'Times New Roman', Times, serif;
 }
-

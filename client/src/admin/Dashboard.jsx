@@ -28,11 +28,12 @@ export default function Dashboard() {
         const expiryTime = decodedToken.exp * 1000;
         if (Date.now() >= expiryTime) {
           dispatch(signOut());
-          navigate('/dang-nhap');
+          navigate('/admin/dang-nhap');
         }
       }
     };
 
+    checkTokenExpiry(); // Check immediately on component mount
     const interval = setInterval(checkTokenExpiry, 60000); // Check every minute
     return () => clearInterval(interval);
   }, [dispatch, navigate]);
