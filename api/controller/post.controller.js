@@ -73,7 +73,31 @@ export const getposts = async (req, res, next) => {
     next(error);
   }
 };
+export const getpostsTinTucSuKien = async (req, res, next) => {
+  try {
+    const startIndex = parseInt(req.query.startIndex) || 0;
+    const limit = parseInt(req.query.limit) || 9;
+    const sortDirection = req.query.order === 'asc' ? 'ASC' : 'DESC';
 
+    const { rows: posts, count: totalPosts } = await Post.findAndCountAll({
+      where: {
+        category: {
+          [Op.or]: ['su-kien', 'tin-tuc']
+        }
+      },
+      order: [['updatedAt', sortDirection]],
+      offset: startIndex,
+      limit,
+    });
+
+    res.status(200).json({
+      posts,
+      totalPosts,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 export const deletepost = async (req, res, next) => {
   try {
     const post = await Post.findByPk(req.params.postId);

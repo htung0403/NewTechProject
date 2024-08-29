@@ -23,18 +23,18 @@ export default function Home() {
   document.title = `TRƯỜNG TIỂU HỌC NAM PHƯỚC 1`;
 
   useEffect(() => {
-    try {
-      const fetchRecentPosts = async () => {
-        const res = await fetch(`/api/post/getposts?limit=3`);
+    const fetchRecentPosts = async () => {
+      try {
+        const res = await fetch(`/api/post/gettintucsukien?limit=3`);
         const data = await res.json();
         if (res.ok) {
           setRecentPosts(data.posts);
         }
-      };
-      fetchRecentPosts();
-    } catch (error) {
-      console.log(error.message);
-    }
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    fetchRecentPosts();
   }, []);
   return (
     <div className="relative w-full overflow-hidden">
