@@ -90,7 +90,7 @@ export default function PostPage() {
         <img
           src={post && post.image}
           alt={post && post.title}
-          className="mt-10 p-3 max-h-[600px] w-full object-contain"
+          className="mt-10 p-3 max-h-[400px] w-full object-contain"
         />
       )}
       <div className="flex justify-start p-3 border-b border-slate-500 mx-auto max-w-2xl text-sm italic">
@@ -107,7 +107,7 @@ export default function PostPage() {
             height="800px"
           ></iframe>
         ) : (
-          <div dangerouslySetInnerHTML={{ __html: post && post.content }}></div>
+          <div className="shadow-sm border rounded-lg p-4" dangerouslySetInnerHTML={{ __html: post && post.content }}></div>
         )}
       </div>
 

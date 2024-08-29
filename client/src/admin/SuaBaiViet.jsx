@@ -55,6 +55,7 @@ export default function UpdatePost() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    setError('');
     const fetchPost = async () => {
       try {
         const res = await fetch(`/api/post/getposts?postId=${postId}`);
@@ -120,7 +121,7 @@ export default function UpdatePost() {
       return;
     }
     try {
-      const res = await fetch(`/api/post/updatepost/${postId}/${currentUser._id}`, {
+      const res = await fetch(`/api/post/updatepost/${postId}/${currentUser.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

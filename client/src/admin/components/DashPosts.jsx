@@ -21,10 +21,24 @@ export default function DashPosts() {
   const [showMore, setShowMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [postIdToDelete, setPostIdToDelete] = useState('');
+
+  const getCategoryDisplayName = (category) => {
+    switch (category) {
+      case 'tin-tuc':
+        return 'Tin Tức';
+      case 'su-kien':
+        return 'Sự Kiện';
+      case 'phu-huynh':
+        return 'Phụ Huynh';
+      default:
+        return category;
+    }
+  };
+
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const res = await fetch(`/api/post/getposts?userId=${currentUser._id}`);
+        const res = await fetch(`/api/post/getposts?userId=${currentUser.id}`);
         const data = await res.json();
         if (res.ok) {
           setUserPosts(data.posts);
@@ -39,12 +53,12 @@ export default function DashPosts() {
     if (currentUser.isAdmin) {
       fetchPosts();
     }
-  }, [currentUser._id]);
+  }, [currentUser.id]);
 
   const handleShowMore = async () => {
     const startIndex = userPosts.length;
     try {
-        const res = await fetch(`/api/post/getposts?userId=${currentUser._id}&startIndex=${startIndex}`);
+        const res = await fetch(`/api/post/getposts?userId=${currentUser.id}&startIndex=${startIndex}`);
         const data = await res.json();
         if (res.ok) {
             setUserPosts((prev) => [...prev, ...data.posts]);
@@ -61,7 +75,7 @@ export default function DashPosts() {
     setShowModal(false);
     try {
       const res = await fetch(
-        `/api/post/deletepost/${postIdToDelete}/${currentUser._id}`,
+        `/api/post/deletepost/${postIdToDelete}/${currentUser.id}`,
         {
           method: 'DELETE',
         }
@@ -71,7 +85,7 @@ export default function DashPosts() {
         console.log(data.message);
       } else {
         setUserPosts((prev) =>
-          prev.filter((post) => post._id !== postIdToDelete)
+          prev.filter((post) => post.id !== postIdToDelete)
         );
       }
     } catch (error) {
@@ -94,7 +108,7 @@ export default function DashPosts() {
               </TableHeadCell>
             </TableHead>
             {userPosts.map((post) => (
-              <TableBody key={post._id} className="divide-y">
+              <TableBody key={post.id} className="divide-y">
                 <TableRow className="bg-white">
                   <TableCell>
                     {new Date(post.updatedAt).toLocaleDateString("en-GB")}
@@ -108,13 +122,13 @@ export default function DashPosts() {
                     <Link className="font-medium text-gray-900" to={`/${post.slug}`}>{post.title}</Link>
                   </TableCell>
                   <TableCell>
-                    {post.category}
+                    {getCategoryDisplayName(post.category)}
                   </TableCell>
                   <TableCell>
                     <span
                       onClick={() => {
                         setShowModal(true);
-                        setPostIdToDelete(post._id);
+                        setPostIdToDelete(post.id);
                       }}
                       className='font-medium text-red-500 hover:underline cursor-pointer'
                     >
@@ -122,7 +136,7 @@ export default function DashPosts() {
                     </span>
                   </TableCell>
                   <TableCell>
-                    <Link className="text-teal-500 hover:underline" to={`/sua-bai-viet/${post._id}`}>
+                    <Link className="text-teal-500 hover:underline" to={`/sua-bai-viet/${post.id}`}>
                         <span>
                             Chỉnh sửa
                         </span>

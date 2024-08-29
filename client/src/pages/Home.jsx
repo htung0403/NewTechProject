@@ -162,27 +162,26 @@ export default function Home() {
       </div>
       <div className="container">
         <div className="flex flex-wrap justify-around md:ml-[160px] mt-[40px] ml-0">
-          <div className="w-full md:w-1/5 flex flex-col justify-center items-center mb-6 md:mb-0">
+          <div className="w-full md:w-1/4 flex flex-col justify-center items-center mb-6 md:mb-0">
             <img
               src={khoahocimg}
               alt="Description"
               className="w-[100px] h-auto object-cover mb-4"
             />
-            <b className="text-[30px] mt-3">Khoa Học</b>
+            <b className="text-[30px] mt-3">Kết quả giáo dục</b>
             <img src={line} alt="line" className="w-[130px] mt-3" />
             <p className="text-center mt-2 text-[17px]">
               Huy chương Vàng, Bạc & các giải Nhất,
               <br /> Đặc biệt tại cuộc thi Toán Quốc tế
-              <br /> (Kangaroo, IMAS, AMO,…)
             </p>
           </div>
-          <div className="w-full md:w-1/5 flex flex-col justify-center items-center mb-6 md:mb-0">
+          <div className="w-full md:w-1/4 flex flex-col justify-center items-center mb-6 md:mb-0">
             <img
               src={ngonnguimg}
               alt="Description"
               className="w-[100px] h-auto object-cover mb-4"
             />
-            <b className="text-[30px] mt-3">Ngoại ngữ</b>
+            <b className="text-[30px] mt-3">Câu lạc bộ</b>
             <img src={line} alt="line" className="w-[130px] mt-3" />
             <p className="text-center mt-2 text-[17px]">
             94% số học sinh hoàn thành tốt chương trình Ngoại ngữ 
@@ -202,7 +201,7 @@ export default function Home() {
               <br /> (Kangaroo, IMAS, AMO,…)
             </p>
           </div>
-          <div className="w-full md:w-1/5 flex flex-col justify-center items-center mb-6 md:mb-0">
+          <div className="w-full md:w-1/4 flex flex-col justify-center items-center mb-6 md:mb-0">
             <img
               src={giaithuongimg}
               alt="Description"

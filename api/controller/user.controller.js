@@ -7,63 +7,66 @@ export const test = (req, res) => {
 };
 
 export const updateUser = async (req, res, next) => {
-  if (req.user.id !== req.params.userId) {
+  if (req.user.id !== parseInt(req.params.userId, 10)) {
     return next(errorHandler(403, "Không có quyền thay đổi thông tin"));
   }
-  if (req.body.password) {
-    if (req.body.password.length < 6) {
+
+  const { username, password, fullName, email, profilePicture } = req.body;
+
+  if (password) {
+    if (password.length < 6) {
       return next(errorHandler(400, "Mật khẩu phải có ít nhất 6 kí tự"));
     }
-    req.body.password = bcryptjs.hashSync(req.body.password, 10);
+    req.body.password = bcryptjs.hashSync(password, 10);
   }
-  if (req.body.username) {
-    if (req.body.username.length < 7 || req.body.username.length > 20) {
+
+  if (username) {
+    if (username.length < 7 || username.length > 20) {
       return next(errorHandler(400, "Tên người dùng phải từ 7 đến 20 ký tự"));
     }
-    if (req.body.username.includes(" ")) {
-      return next(
-        errorHandler(400, "Tên người dùng không được chứa khoảng trắng")
-      );
+    if (username.includes(" ")) {
+      return next(errorHandler(400, "Tên người dùng không được chứa khoảng trắng"));
     }
-    if (req.body.username !== req.body.username.toLowerCase()) {
+    if (username !== username.toLowerCase()) {
       return next(errorHandler(400, "Tên người dùng phải viết thường"));
     }
-    if (!req.body.username.match(/^[a-zA-Z0-9]+$/)) {
-      return next(
-        errorHandler(400, "Tên người dùng chỉ được chứa chữ cái và số")
-      );
+    if (!username.match(/^[a-zA-Z0-9]+$/)) {
+      return next(errorHandler(400, "Tên người dùng chỉ được chứa chữ cái và số"));
     }
   }
+
   try {
-    const updatedUser = await User.findByIdAndUpdate(
-      req.params.userId,
-      {
-        $set: {
-          username: req.body.username,
-          fullName: req.body.fullName,
-          email: req.body.email,
-          profilePicture: req.body.profilePicture,
-          password: req.body.password,
-        },
-      },
-      { new: true }
-    );
-    const { password, ...rest } = updatedUser._doc;
-    res.status(200).json(rest);
-  } catch (error) {
-    next(error);
+    const userId = req.params.userId;
+
+    const [updatedCount] = await User.update(req.body, {
+      where: { id: userId }
+    });
+
+    if (updatedCount === 0) {
+      return next(errorHandler(404, "Không tìm thấy người dùng"));
+    }
+
+    const updatedUser = await User.findByPk(userId);
+
+    res.json(updatedUser);  } catch (error) {
+    console.error('Update error:', error); // Log the error
+    next(errorHandler(500, "Lỗi máy chủ"));
   }
 };
 
 export const deleteUser = async (req, res, next) => {
-  if (req.user.id !== req.params.userId){
+  const userId = parseInt(req.params.userId, 10); // Convert userId to a number
+  if (req.user.id !== userId) {
     return next(errorHandler(403, 'Bạn không có quyền xóa tài khoản này'));
   }
   try {
-    await User.findByIdAndDelete(req.params.userId)
-    res.status(200).json('Xóa tài khoản thành công');
-  }
-  catch (error) {
+    const deleted = await User.destroy({ where: { id: userId } });
+    if (deleted) {
+      res.status(200).json('Xóa tài khoản thành công');
+    } else {
+      throw new Error("User not found");
+    }
+  } catch (error) {
     next(error);
   }
 };
@@ -74,4 +77,4 @@ export const signout = (req, res, next) => {
   } catch (error) {
     next(error);
   }
-} 
+};

@@ -6,16 +6,8 @@ import jwt from "jsonwebtoken";
 export const signup = async (req, res, next) => {
   const { username, email, password, fullName, isAdmin } = req.body;
 
-  if (
-    !username ||
-    !email ||
-    !password ||
-    !fullName ||
-    username === "" ||
-    email === "" ||
-    fullName === ""
-  ) {
-    next(errorHandler(400, "All fields required!"));
+  if (!username || !email || !password || !fullName || username === "" || email === "" || fullName === "") {
+    return next(errorHandler(400, "All fields required!"));
   }
 
   try {
@@ -23,16 +15,13 @@ export const signup = async (req, res, next) => {
     const hashedPassword = await bcryptjs.hash(password, 10);
 
     // Create a new user with default role 'phuhuynh'
-    const newUser = new User({
+    const newUser = await User.create({
       username,
       email,
       password: hashedPassword,
       fullName,
       isAdmin: false, // Default role
     });
-
-    // Save the user to the database
-    await newUser.save();
 
     // Send a success response
     res.status(201).json({ message: "User created successfully." });
@@ -45,11 +34,11 @@ export const signin = async (req, res, next) => {
   const { email, password } = req.body;
 
   if (!email || !password || email === "" || password === "") {
-    next(errorHandler(400, "All fields are required"));
+    return next(errorHandler(400, "All fields are required"));
   }
 
   try {
-    const validUser = await User.findOne({ email });
+    const validUser = await User.findOne({ where: { email } });
     if (!validUser) {
       return next(errorHandler(404, "User not found"));
     }
@@ -58,11 +47,11 @@ export const signin = async (req, res, next) => {
       return next(errorHandler(400, "Invalid password"));
     }
     const token = jwt.sign(
-      { id: validUser._id, isAdmin: validUser.isAdmin },
+      { id: validUser.id, isAdmin: validUser.isAdmin },
       process.env.JWT_SECRET,
       { expiresIn: '3h' } // Token expires in 3 hours
     );
-    const { password: pass, ...rest } = validUser._doc;
+    const { password: pass, ...rest } = validUser.toJSON();
 
     res
       .status(200)

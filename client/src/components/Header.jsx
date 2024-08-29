@@ -80,7 +80,7 @@ export default function Header() {
                 to="/gioi-thieu/thu-ngo"
                 className="block px-4 py-2 text-[14px] font-sans font-bold hover:bg-gray-300"
               >
-                THƯ NGÕ
+                THÔNG ĐIỆP
               </Link>
             </div>
             <div className="py-1 relative sub-menu">
@@ -98,18 +98,10 @@ export default function Header() {
               >
                 <div className="py-1">
                   <Link
-                    to="/cac-to-chuyen-mon"
-                    className="block px-4 py-2 md:text-[14px] font-sans font-bold hover:bg-gray-300"
-                  >
-                    CÁC TỔ CHUYÊN MÔN
-                  </Link>
-                </div>
-                <div className="py-1">
-                  <Link
-                    to="/ban-chap-hanh-cong-doan"
+                    to="/chi-bo-dang"
                     className="block px-4 py-2 text-[14px] font-sans font-bold hover:bg-gray-300"
                   >
-                    BAN CHẤP HÀNH CÔNG ĐOÀN
+                    CHI BỘ ĐẢNG
                   </Link>
                 </div>
                 <div className="py-1">
@@ -122,10 +114,18 @@ export default function Header() {
                 </div>
                 <div className="py-1">
                   <Link
-                    to="/chi-bo-dang"
+                    to="/ban-chap-hanh-cong-doan"
                     className="block px-4 py-2 text-[14px] font-sans font-bold hover:bg-gray-300"
                   >
-                    CHI BỘ ĐẢNG
+                    BAN CHẤP HÀNH CÔNG ĐOÀN
+                  </Link>
+                </div>
+                <div className="py-1">
+                  <Link
+                    to="/cac-to-chuyen-mon"
+                    className="block px-4 py-2 md:text-[14px] font-sans font-bold hover:bg-gray-300"
+                  >
+                    CÁC TỔ CHUYÊN MÔN
                   </Link>
                 </div>
               </div>

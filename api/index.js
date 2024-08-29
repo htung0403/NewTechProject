@@ -1,5 +1,4 @@
 import express from "express";
-import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRoutes from "./routes/user.route.js";
 import authRoutes from "./routes/auth.route.js";
@@ -7,16 +6,21 @@ import postRoutes from "./routes/post.route.js";
 import cookieParser from "cookie-parser";
 import path from "path";
 import bodyParser from "body-parser";
+import { Sequelize } from "sequelize";
 
 dotenv.config();
 
-mongoose
-  .connect(process.env.MONGO)
+const sequelize = new Sequelize(process.env.MYSQL_DB, process.env.MYSQL_USER, process.env.MYSQL_PASSWORD, {
+  host: process.env.MYSQL_HOST,
+  dialect: "mysql",
+});
+
+sequelize.authenticate()
   .then(() => {
-    console.log("MongoDB is connected");
+    console.log("MySQL is connected");
   })
   .catch((err) => {
-    console.error("MongoDB connection error:", err);
+    console.error("MySQL connection error:", err);
   });
 
 const __dirname = path.resolve();
@@ -53,3 +57,12 @@ app.use((err, req, res, next) => {
     message,
   });
 });
+
+// Synchronize models with the database
+sequelize.sync()
+  .then(() => {
+    console.log("All models were synchronized successfully.");
+  })
+  .catch((err) => {
+    console.error("Error synchronizing models:", err);
+  });
