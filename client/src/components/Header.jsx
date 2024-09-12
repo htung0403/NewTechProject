@@ -154,7 +154,7 @@ export default function Header() {
           >
             <div className="py-2">
               <Link
-                to="/phu-huynh/thong-bao-chung"
+                to="/phu-huynh"
                 className="block px-4 py-2 text-[14px] font-sans font-bold hover:bg-gray-200"
               >
                 THÔNG BÁO CHUNG

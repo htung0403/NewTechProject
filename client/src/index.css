@@ -97,3 +97,27 @@ body {
 .post-content .ql-font-serif {
   font-family: Georgia, 'Times New Roman', Times, serif;
 }
+.post-content .ql-indent-1 {
+  padding-left: 3rem;
+}
+.post-content .ql-indent-2 {
+  padding-left: 6rem;
+}
+.post-content .ql-indent-3 {
+  padding-left: 9rem;
+}
+
+.post-content .ql-video {
+  width: 100%;
+  height: 500px;
+  max-height: 500px;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+@media (max-width: 768px) {
+  .post-content .ql-video {
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+}

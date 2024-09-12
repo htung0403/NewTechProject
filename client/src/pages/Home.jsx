@@ -11,21 +11,25 @@ import line from "../images/line-min.png";
 import PostCard from "../components/PostCard";
 import { useState, useEffect } from "react";
 
-import image1 from "../images/slider/DJI_0406.JPG";
+import image5 from "../images/slider/DJI_0406.JPG";
 import image2 from "../images/slider/IMG_1121-min.JPG";
-import image3 from "../images/slider/IMG_2015-min.JPG";
+const image3 = "https://firebasestorage.googleapis.com/v0/b/namphuoc1-web.appspot.com/o/z5755048946809_5bfc8efd5f1d41bd998fbb6761b1756c.jpg?alt=media&token=660ed22c-5292-4f42-81ef-401ccdc2c11f";
 import image4 from "../images/slider/IMG_7133.JPG";
-const images = [image1, image2, image3, image4];
+const image1 = "https://firebasestorage.googleapis.com/v0/b/namphuoc1-web.appspot.com/o/z5755048930046_0ba18821abf2c1d4ba478e82479762db.jpg?alt=media&token=27ac0c87-3a43-4259-a5ef-e9d08a08bd3c";
+const images = [image1, image2, image3, image4, image5];
 
 export default function Home() {
   const [recentPosts, setRecentPosts] = useState(null);
   
   document.title = `TRƯỜNG TIỂU HỌC NAM PHƯỚC 1`;
+  const API_URL = process.env.NODE_ENV === 'production' 
+    ? 'https://namphuoc1.edu.vn/api' 
+    : 'http://localhost:3000/api';
 
   useEffect(() => {
     const fetchRecentPosts = async () => {
       try {
-        const res = await fetch(`/api/post/gettintucsukien?limit=3`);
+        const res = await fetch(`${API_URL}/post/gettintucsukien?limit=3`);
         const data = await res.json();
         if (res.ok) {
           setRecentPosts(data.posts);
@@ -112,7 +116,7 @@ export default function Home() {
               LUÔN TIN Ở KHẢ NĂNG CỦA MÌNH
             </h2>
             <p className="mb-4 text-justify">
-              “Thầy rất vui khi được đứng đây, cùng các con bắt đầu một năm học
+              "Thầy rất vui khi được đứng đây, cùng các con bắt đầu một năm học
               mới đầy hứng khởi.
               <br /> Các con có biết không, giống như một hạt giống nhỏ cần được
               tưới nước và chăm sóc để lớn lên, kiến thức cũng vậy, cần được
@@ -125,7 +129,7 @@ export default function Home() {
               <br /> Hãy nhớ rằng, việc học không chỉ là để có những điểm số cao
               mà còn để trang bị cho các con những kiến thức và kỹ năng cần
               thiết để đối mặt với cuộc sống. Hãy cùng nhau tạo nên một môi
-              trường học tập vui vẻ, thân thiện và hiệu quả.”
+              trường học tập vui vẻ, thân thiện và hiệu quả."
             </p>
             <br />
             <i className="text-left font-semibold">- Hiệu trưởng Võ Quý</i>
@@ -143,7 +147,7 @@ export default function Home() {
         <h2 className="text-3xl mt-[40px] font-bold mb-4 flex justify-center">
           NHỮNG THÀNH TÍCH NỔI BẬT CỦA HỌC SINH
         </h2>
-        <p className="text-lg mt-[5px] flex justify-center">
+        {/* <p className="text-lg mt-[5px] flex justify-center">
           Tỷ lệ học sinh giỏi tăng liên tục. Từ 74,6% (năm học 2004-2005), đến
           91,8% (năm học 2011-2012).
         </p>
@@ -156,9 +160,9 @@ export default function Home() {
           Quốc gia Tin học trẻ không chuyên và Giải Thế hệ
         </p>
         <p className="text-lg mt-[5px] flex justify-center">
-          tài năng trong Cuộc thi “Nhân tài đất Việt”; và rất nhiều học sinh
+          tài năng trong Cuộc thi "Nhân tài đất Việt"; và rất nhiều học sinh
           khác.
-        </p>
+        </p> */}
       </div>
       <div className="container">
         <div className="flex flex-wrap justify-around md:ml-[160px] mt-[40px] ml-0">
@@ -171,8 +175,7 @@ export default function Home() {
             <b className="text-[30px] mt-3">Kết quả giáo dục</b>
             <img src={line} alt="line" className="w-[130px] mt-3" />
             <p className="text-center mt-2 text-[17px]">
-              Huy chương Vàng, Bạc & các giải Nhất,
-              <br /> Đặc biệt tại cuộc thi Toán Quốc tế
+             
             </p>
           </div>
           <div className="w-full md:w-1/4 flex flex-col justify-center items-center mb-6 md:mb-0">
@@ -184,7 +187,6 @@ export default function Home() {
             <b className="text-[30px] mt-3">Câu lạc bộ</b>
             <img src={line} alt="line" className="w-[130px] mt-3" />
             <p className="text-center mt-2 text-[17px]">
-            94% số học sinh hoàn thành tốt chương trình Ngoại ngữ 
             </p>
           </div>
           <div className="w-full md:w-1/4 flex flex-col justify-center items-center mb-6 md:mb-0">
@@ -196,9 +198,7 @@ export default function Home() {
             <b className="text-[30px] mt-3">Học sinh năng khiếu</b>
             <img src={line} alt="line" className="w-[130px] mt-3" />
             <p className="text-center mt-2 text-[17px]">
-              Huy chương Vàng, Bạc & các giải Nhất,
-              <br /> Đặc biệt tại cuộc thi Toán Quốc tế
-              <br /> (Kangaroo, IMAS, AMO,…)
+              
             </p>
           </div>
           <div className="w-full md:w-1/4 flex flex-col justify-center items-center mb-6 md:mb-0">
@@ -223,6 +223,27 @@ export default function Home() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 mt-5 justify-center">
           {recentPosts &&
             recentPosts.map((post) => <PostCard key={post._id} post={post} />)}
+        </div>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8 w-full">
+        <div className="md:row-span-2 flex justify-center h-[320px] md:h-[670px]">
+          <img src="https://firebasestorage.googleapis.com/v0/b/namphuoc1-web.appspot.com/o/z5782120322596_bfbd9a8fc457d05eca4973b1c5eed106.jpg?alt=media&token=55b8277d-14e6-41cf-8b79-0393127dc728" alt="Left Column" className="w-full h-full object-cover object-bottom" />
+        </div>
+        <div className="flex flex-col justify-between h-full gap-4 md:gap-8">
+          <div className="flex justify-center h-[320px]">
+            <img src="https://firebasestorage.googleapis.com/v0/b/namphuoc1-web.appspot.com/o/z5755048954237_51401dd8e0501fc984706e288f47ce12.jpg?alt=media&token=47e5f2be-b5f2-4e55-9fdc-40f11689c66d" alt="Middle Top" className="w-full h-full object-cover object-bottom" />
+          </div>
+          <div className="flex justify-center h-[320px]">
+            <img src='https://firebasestorage.googleapis.com/v0/b/namphuoc1-web.appspot.com/o/z5755048930046_0ba18821abf2c1d4ba478e82479762db.jpg?alt=media&token=27ac0c87-3a43-4259-a5ef-e9d08a08bd3c' alt="Middle Bottom" className="w-full h-full object-cover object-bottom" />
+          </div>
+        </div>
+        <div className="flex flex-col justify-between h-full gap-4 md:gap-8">
+          <div className="flex justify-center h-[320px]">
+            <img src={image3} alt="Middle Top" className="w-full h-full object-cover object-bottom" />
+          </div>
+          <div className="flex justify-center h-[320px]">
+            <img src='https://firebasestorage.googleapis.com/v0/b/namphuoc1-web.appspot.com/o/z5755048915247_2f388ccf53bb888e47b838c0fe432a32.jpg?alt=media&token=72075a2e-0220-4a2f-8514-75b8e6a47ab1' alt="Middle Bottom" className="w-full h-full object-cover object-bottom" />
+          </div>
         </div>
       </div>
       <div className="flex flex-col sm:flex-row items-center mt-6">

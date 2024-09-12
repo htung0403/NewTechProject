@@ -44,6 +44,9 @@ export default function DashProfile() {
   const [formData, setFormData] = useState({});
   const filePickerRef = useRef();
   const dispatch = useDispatch();
+  const API_URL = process.env.NODE_ENV === 'production' 
+    ? 'https://namphuoc1.edu.vn/api' 
+    : 'http://localhost:3000/api';
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -107,12 +110,13 @@ export default function DashProfile() {
     }
     try {
       dispatch(updateStart());
-      const res = await fetch(`/api/user/update/${currentUser.id}`, {
+      const res = await fetch(`${API_URL}/user/update/${currentUser.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
+        credentials: 'include'
       });
       const data = await res.json();
       if (!res.ok) {
@@ -132,7 +136,7 @@ export default function DashProfile() {
     setShowModal(false);
     try {
       dispatch(deleteUserStart());
-      const res = await fetch(`/api/user/delete/${currentUser.id}`, {
+      const res = await fetch(`${API_URL}/user/delete/${currentUser.id}`, {
         method: "DELETE",
       });
       const data = await res.json();
@@ -146,7 +150,7 @@ export default function DashProfile() {
 
   const handleSignout = async () => {
     try {
-      const res = await fetch(`/api/user/signout`, {
+      const res = await fetch(`${API_URL}/user/signout`, {
         method: "POST",
       });
       const data = await res.json();

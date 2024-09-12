@@ -16,6 +16,9 @@ export default function DashSidebar() {
   const location = useLocation();
   const [tab, setTab] = useState("");
   const { currentUser } = useSelector((state) => state.user);
+  const API_URL = process.env.NODE_ENV === 'production' 
+    ? 'https://namphuoc1.edu.vn/api' 
+    : 'http://localhost:3000/api';
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const tabFromUrl = urlParams.get("tab");
@@ -26,14 +29,16 @@ export default function DashSidebar() {
   const dispatch = useDispatch();
   const handleSignout = async () => {
     try {
-      const res = await fetch(`/api/user/signout`, {
+      const res = await fetch(`${API_URL}/user/signout`, {
         method: "POST",
+        credentials: 'include'
       });
       const data = await res.json();
       if (!res.ok) {
         console.log(data.message);
       } else {
         dispatch(signOutSuccess());
+        navigate('/admin/dang-nhap');
       }
     } catch (error) {
       console.log(error.message);

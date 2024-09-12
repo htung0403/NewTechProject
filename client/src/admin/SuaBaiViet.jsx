@@ -1,6 +1,6 @@
 import { Alert, Button, FileInput, Select, TextInput } from "flowbite-react";
-import ReactQuill, { Quill } from 'react-quill';
-import imageResize from 'quill-image-resize-module-react';
+import ReactQuill, { Quill } from "react-quill";
+import imageResize from "quill-image-resize-module-react";
 import {
   getDownloadURL,
   getStorage,
@@ -13,10 +13,13 @@ import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import './styles.css'
+import "./styles.css";
+import imageHandler from "./components/imageHandler";
+import "quill/dist/quill.snow.css";
+import useCheckAuth from "../../../api/utils/checkAuth";
 
 export default function UpdatePost() {
-  Quill.register('modules/imageResize', imageResize);
+  Quill.register("modules/imageResize", imageResize);
   document.title = `Sửa bài viết - TRƯỜNG TIỂU HỌC NAM PHƯỚC 1`;
 
   const { currentUser } = useSelector((state) => state.user);
@@ -26,8 +29,10 @@ export default function UpdatePost() {
   const [formData, setFormData] = useState({});
   const [publishError, setPublishError] = useState(null);
   const { postId } = useParams();
-  const [category, setCategory] = useState('uncategorized');
-  const [error, setError] = useState('');
+  const [category, setCategory] = useState("uncategorized");
+  const [error, setError] = useState("");
+
+  useCheckAuth();
 
   const toolbarOptions = [
     [{ font: [] }],
@@ -46,16 +51,21 @@ export default function UpdatePost() {
 
     ["clean"], // remove formatting button
   ];
-  const module = {
-    toolbar: toolbarOptions,
+  const modules = {
+    toolbar: {
+      container: toolbarOptions,
+      handlers: {
+        image: imageHandler,
+      },
+    },
     imageResize: {
-      modules: ["Resize", "DisplaySize"],
+      modules: ["Resize", "DisplaySize", "Toolbar"],
     },
   };
   const navigate = useNavigate();
 
   useEffect(() => {
-    setError('');
+    setError("");
     const fetchPost = async () => {
       try {
         const res = await fetch(`/api/post/getposts?postId=${postId}`);
@@ -68,6 +78,8 @@ export default function UpdatePost() {
         if (res.ok) {
           setPublishError(null);
           setFormData(data.posts[0]);
+          // Set the category based on the fetched data
+          setCategory(data.posts[0].category || "uncategorized");
         }
       } catch (error) {
         console.log(error.message);
@@ -85,7 +97,7 @@ export default function UpdatePost() {
       }
       setImageUploadError(null);
       const storage = getStorage(app);
-      const fileName = new Date().getTime() + "-" + file.name;
+      const fileName = `postImages/${new Date().getTime()}-${file.name}`;
       const storageRef = ref(storage, fileName);
       const uploadTask = uploadBytesResumable(storageRef, file);
       uploadTask.on(
@@ -116,18 +128,21 @@ export default function UpdatePost() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (category === 'uncategorized') {
-      setError('Vui lòng chọn một danh mục.');
+    if (category === "uncategorized") {
+      setError("Vui lòng chọn một danh mục.");
       return;
     }
     try {
-      const res = await fetch(`/api/post/updatepost/${postId}/${currentUser.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const res = await fetch(
+        `/api/post/updatepost/${postId}/${currentUser.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
       const data = await res.json();
       if (!res.ok) {
         setPublishError(data.message);
@@ -142,7 +157,6 @@ export default function UpdatePost() {
       setPublishError("Đã xảy ra lỗi");
     }
   };
-
   return (
     <div className="p-3 max-w-[70rem] mx-auto min-h-screen">
       <h1 className="text-center text-3xl my-7 font-semibold">
@@ -152,7 +166,7 @@ export default function UpdatePost() {
         <div className="flex flex-col gap-4 sm:flex-row justify-between">
           <TextInput
             type="text"
-            placeholder="Title"
+            placeholder="Tiêu đề"
             required
             id="title"
             className="flex-1"
@@ -169,10 +183,10 @@ export default function UpdatePost() {
             }}
             required
           >
-            <option value='uncategorized'>Chọn một danh mục</option>
-            <option value='tin-tuc'>Tin tức</option>
-            <option value='su-kien'>Sự kiện</option>
-            <option value='phu-huynh'>Phụ huynh</option>
+            <option value="uncategorized">Chọn một danh mục</option>
+            <option value="tin-tuc">Tin tức</option>
+            <option value="su-kien">Sự kiện</option>
+            <option value="phu-huynh">Phụ huynh</option>
           </Select>
         </div>
         <div className="flex gap-4 items-center justify-between border-4 border-blue-300 border-dashed p-3">
@@ -210,27 +224,27 @@ export default function UpdatePost() {
           />
         )}
         {formData?.isFile ? (
-        <iframe
-          src={formData.content}
-          title="File Preview"
-          width="100%"
-          height="800px"
-        />
-      ) : (
-        <div className="quill-editor">
-        <ReactQuill
-          modules={module}
-          theme="snow"
-          placeholder="Nội dung..."
-          className="min-h-72 mb-12"
-          required
-          value={formData.content}
-          onChange={(value) => {
-            setFormData({ ...formData, content: value });
-          }}
-        />
-        </div>
-      )}
+          <iframe
+            src={formData.content}
+            title="File Preview"
+            width="100%"
+            height="800px"
+          />
+        ) : (
+          <div className="quill-editor">
+            <ReactQuill
+              modules={modules}
+              theme="snow"
+              placeholder="Nội dung..."
+              className="min-h-72 mb-12"
+              required
+              value={formData.content}
+              onChange={(value) => {
+                setFormData({ ...formData, content: value });
+              }}
+            />
+          </div>
+        )}
         <Button type="submit" gradientDuoTone="purpleToPink">
           Đăng
         </Button>
@@ -240,7 +254,7 @@ export default function UpdatePost() {
           </Alert>
         )}
         {error && (
-          <Alert className='mt-5' color='failure'>
+          <Alert className="mt-5" color="failure">
             {error}
           </Alert>
         )}

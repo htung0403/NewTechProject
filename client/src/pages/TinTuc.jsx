@@ -9,12 +9,14 @@ const TinTuc = () => {
   const [error, setError] = useState(null);
   const [showMore, setShowMore] = useState(true);
 
+  const API_URL = process.env.NODE_ENV === 'production' 
+    ? 'https://namphuoc1.edu.vn/api' 
+    : 'http://localhost:3000/api';
+
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch(
-          "/api/post/getposts?category=tin-tuc"
-        );
+        const response = await fetch(`${API_URL}/post/getposts?category=tin-tuc`);
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -43,7 +45,7 @@ const TinTuc = () => {
   const handleShowMore = async () => {
     const startIndex = posts.length;
     try {
-        const res = await fetch(`/api/post/getposts?category=tin-tuc&startIndex=${startIndex}`);
+        const res = await fetch(`${API_URL}/post/getposts?category=tin-tuc&startIndex=${startIndex}`);
         const data = await res.json();
         if (res.ok) {
             setPosts((prev) => [...prev, ...data.posts]);

@@ -11,11 +11,15 @@ export default function PostPage() {
   const [post, setPost] = useState(null);
   const [recentPosts, setRecentPosts] = useState(null);
 
+  const API_URL = process.env.NODE_ENV === 'production' 
+    ? 'https://namphuoc1.edu.vn/api' 
+    : 'http://localhost:3000/api';
+
   useEffect(() => {
     const fetchPost = async () => {
       try {
         setLoading(true);
-        const res = await fetch(`/api/post/getposts?slug=${postSlug}`);
+        const res = await fetch(`${API_URL}/post/getposts?slug=${postSlug}`);
         const data = await res.json();
         if (!res.ok) {
           setError(true);
@@ -36,7 +40,7 @@ export default function PostPage() {
   useEffect(() => {
     const fetchRecentPosts = async () => {
       try {
-        const res = await fetch(`/api/post/getposts?limit=3`);
+        const res = await fetch(`${API_URL}/post/getposts?limit=3`);
         const data = await res.json();
         if (res.ok) {
           setRecentPosts(data.posts);
@@ -90,7 +94,7 @@ export default function PostPage() {
         <img
           src={post && post.image}
           alt={post && post.title}
-          className="mt-10 p-3 max-h-[400px] w-full object-contain"
+          className="mt-10 p-3 h-fit max-w-1000px object-contain"
         />
       )}
       <div className="flex justify-start p-3 border-b border-slate-500 mx-auto max-w-2xl text-sm italic">

@@ -9,11 +9,15 @@ export default function SuKien() {
   const [error, setError] = useState(null);
   const [showMore, setShowMore] = useState(true);
 
+  const API_URL = process.env.NODE_ENV === 'production' 
+    ? 'https://namphuoc1.edu.vn/api' 
+    : 'http://localhost:3000/api';
+
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         const response = await fetch(
-          "/api/post/getposts?category=su-kien"
+          `${API_URL}/post/getposts?category=su-kien`
         );
 
         if (!response.ok) {
@@ -43,7 +47,7 @@ export default function SuKien() {
   const handleShowMore = async () => {
     const startIndex = posts.length;
     try {
-        const res = await fetch(`/api/post/getposts?category=su-kien&startIndex=${startIndex}`);
+        const res = await fetch(`${API_URL}/post/getposts?category=su-kien&startIndex=${startIndex}`);
         const data = await res.json();
         if (res.ok) {
             setPosts((prev) => [...prev, ...data.posts]);

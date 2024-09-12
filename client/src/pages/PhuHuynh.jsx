@@ -9,11 +9,15 @@ const PhuHuynh = () => {
   const [error, setError] = useState(null);
   const [showMore, setShowMore] = useState(true);
 
+  const API_URL = process.env.NODE_ENV === 'production' 
+    ? 'https://namphuoc1.edu.vn/api' 
+    : 'http://localhost:3000/api';
+
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         const response = await fetch(
-          "/api/post/getposts?category=phu-huynh"
+          `${API_URL}/post/getposts?category=phu-huynh`
         );
 
         if (!response.ok) {
@@ -43,7 +47,7 @@ const PhuHuynh = () => {
   const handleShowMore = async () => {
     const startIndex = posts.length;
     try {
-        const res = await fetch(`/api/post/getposts?category=phu-huynh&startIndex=${startIndex}`);
+        const res = await fetch(`${API_URL}/post/getposts?category=phu-huynh&startIndex=${startIndex}`);
         const data = await res.json();
         if (res.ok) {
             setPosts((prev) => [...prev, ...data.posts]);

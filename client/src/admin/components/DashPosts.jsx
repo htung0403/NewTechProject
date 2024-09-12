@@ -13,7 +13,6 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
-import { set } from 'mongoose';
 
 export default function DashPosts() {
   const { currentUser } = useSelector((state) => state.user);
@@ -21,6 +20,9 @@ export default function DashPosts() {
   const [showMore, setShowMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [postIdToDelete, setPostIdToDelete] = useState('');
+  const API_URL = process.env.NODE_ENV === 'production' 
+    ? 'https://namphuoc1.edu.vn/api' 
+    : 'http://localhost:3000/api';
 
   const getCategoryDisplayName = (category) => {
     switch (category) {
@@ -38,7 +40,7 @@ export default function DashPosts() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const res = await fetch(`/api/post/getposts?userId=${currentUser.id}`);
+        const res = await fetch(`${API_URL}/post/getposts?userId=${currentUser.id}`);
         const data = await res.json();
         if (res.ok) {
           setUserPosts(data.posts);
@@ -58,7 +60,7 @@ export default function DashPosts() {
   const handleShowMore = async () => {
     const startIndex = userPosts.length;
     try {
-        const res = await fetch(`/api/post/getposts?userId=${currentUser.id}&startIndex=${startIndex}`);
+        const res = await fetch(`${API_URL}/post/getposts?userId=${currentUser.id}&startIndex=${startIndex}`);
         const data = await res.json();
         if (res.ok) {
             setUserPosts((prev) => [...prev, ...data.posts]);
@@ -75,9 +77,13 @@ export default function DashPosts() {
     setShowModal(false);
     try {
       const res = await fetch(
-        `/api/post/deletepost/${postIdToDelete}/${currentUser.id}`,
+        `${API_URL}/post/deletepost/${postIdToDelete}/${currentUser.id}`,
         {
           method: 'DELETE',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          },
         }
       );
       const data = await res.json();

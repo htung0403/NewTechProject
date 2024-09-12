@@ -9,11 +9,13 @@ import {
   uploadBytesResumable,
 } from 'firebase/storage';
 import { app } from '../firebase';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { useNavigate } from 'react-router-dom';
 import './styles.css'
+import imageHandler from './components/imageHandler';
+import useCheckAuth from "../../../api/utils/checkAuth";
 
 export default function CreatePost() {
   Quill.register('modules/imageResize', imageResize);
@@ -27,6 +29,9 @@ export default function CreatePost() {
   const [publishError, setPublishError] = useState(null);
   const [category, setCategory] = useState('uncategorized');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  useCheckAuth();
 
   const toolbarOptions = [
     [{ 'font': [] }],
@@ -45,12 +50,16 @@ export default function CreatePost() {
   ];
 
   const modules = {
-    toolbar: toolbarOptions,
+    toolbar: {
+      container: toolbarOptions,
+      handlers: {
+        image: imageHandler
+      }
+    },
     imageResize: {
       modules: ["Resize", "DisplaySize", "Toolbar"],
     },
   };
-  const navigate = useNavigate();
 
   const handleUpdloadImage = async () => {
     try {
@@ -125,7 +134,7 @@ export default function CreatePost() {
         <div className='flex flex-col gap-4 sm:flex-row justify-between'>
           <TextInput
             type='text'
-            placeholder='Title'
+            placeholder='Tiêu đề'
             required
             id='title'
             className='flex-1'

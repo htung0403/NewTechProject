@@ -6,7 +6,7 @@ import { Alert, Button, FileInput, Select, TextInput } from 'flowbite-react';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { useNavigate } from 'react-router-dom';
-import logoImg from "../images/logo.png";
+import useCheckAuth from "../../../api/utils/checkAuth";
 
 const UploadFile = () => {
   const [file, setFile] = useState(null);
@@ -18,6 +18,7 @@ const UploadFile = () => {
   const [error, setError] = useState('');
 
   const navigate = useNavigate();
+  useCheckAuth();
 
   const handleUploadFile = async () => {
     try {
@@ -78,7 +79,6 @@ const UploadFile = () => {
           title: formData.title,
           content: fileUrl,
           category: formData.category,
-          image: logoImg,
           isFile: true,
         }),
       });
@@ -103,7 +103,7 @@ const UploadFile = () => {
         <div className='flex flex-col gap-4 sm:flex-row justify-between'>
           <TextInput
             type='text'
-            placeholder='Title'
+            placeholder='Tiêu đề'
             required
             id='title'
             className='flex-1'

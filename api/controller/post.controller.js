@@ -1,15 +1,32 @@
-import slugify from 'slugify';
-import Post from '../models/post.model.js';
-import { Op } from 'sequelize';
-import { errorHandler } from '../utils/error.js';
+const slugify = require('slugify');
+const Post = require('../models/post.model.js');
+const { Op } = require('sequelize');
+const { errorHandler } = require('../utils/error.js');
+const pako = require('pako');
 
-export const create = async (req, res, next) => {
-  if (!req.user.isAdmin) {
-    return next(errorHandler(403, 'You are not allowed to create a post'));
+module.exports = {
+  create: async (req, res, next) => {
+    if (!req.user.isAdmin) {
+      return next(errorHandler(403, 'You are not allowed to create a post'));
   }
   if (!req.body.title || !req.body.content) {
     return next(errorHandler(400, 'Please provide all required fields'));
   }
+  
+  const { title, content, image, category, isCompressed } = req.body;
+  
+  let decompressedContent = content;
+  if (isCompressed) {
+    try {
+      const compressedData = Buffer.from(content, 'base64');
+      const inflatedContent = pako.inflate(compressedData, { to: 'string' });
+      decompressedContent = JSON.parse(inflatedContent);
+    } catch (error) {
+      console.error('Error decompressing content:', error);
+      return next(errorHandler(400, 'Invalid compressed content'));
+    }
+  }
+
   const slug = slugify(req.body.title, {
     lower: true,
     strict: true,
@@ -17,127 +34,128 @@ export const create = async (req, res, next) => {
   });
 
   const newPost = new Post({
-    ...req.body,
+    title,
+    content: decompressedContent,
+    image,
+    category,
     slug,
     userId: req.user.id,
   });
+
   try {
     const savedPost = await newPost.save();
     res.status(201).json(savedPost);
   } catch (error) {
     next(error);
   }
-};
+},
 
-export const getposts = async (req, res, next) => {
-  try {
-    const startIndex = parseInt(req.query.startIndex) || 0;
-    const limit = parseInt(req.query.limit) || 9;
-    const sortDirection = req.query.order === 'asc' ? 'ASC' : 'DESC';
+  getposts: async (req, res, next) => {
+    try {
+      const userId = req.query.userId;
+      const postId = req.query.postId;
+      const category = req.query.category;
+      const slug = req.query.slug;
+      const startIndex = parseInt(req.query.startIndex) || 0;
+      const limit = parseInt(req.query.limit) || 9;
+      const sortDirection = req.query.order === 'asc' ? 'ASC' : 'DESC';
 
-    const where = {
-      ...(req.query.userId && { userId: req.query.userId }),
-      ...(req.query.category && { category: req.query.category }),
-      ...(req.query.slug && { slug: req.query.slug }),
-      ...(req.query.postId && { id: req.query.postId }),
-      ...(req.query.searchTerm && {
-        [Op.or]: [
-          { title: { [Op.like]: `%${req.query.searchTerm}%` } },
-          { content: { [Op.like]: `%${req.query.searchTerm}%` } },
-        ],
-      }),
-    };
+      console.log('Query parameters:', { userId, postId, category, slug, startIndex, limit, sortDirection });
 
-    const { rows: posts, count: totalPosts } = await Post.findAndCountAll({
-      where,
-      order: [['updatedAt', sortDirection]],
-      offset: startIndex,
-      limit,
-    });
+      let whereClause = {};
+      if (userId) whereClause.userId = userId;
+      if (postId) whereClause.id = postId;
+      if (category) whereClause.category = category;
+      if (slug) whereClause.slug = slug;
 
-    const now = new Date();
-    const oneMonthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
+      console.log('Where clause:', whereClause);
 
-    const lastMonthPosts = await Post.count({
-      where: {
-        createdAt: { [Op.gte]: oneMonthAgo },
-      },
-    });
+      const { rows: posts, count: totalPosts } = await Post.findAndCountAll({
+        where: whereClause,
+        order: [['createdAt', sortDirection]],
+        offset: startIndex,
+        limit: limit,
+      });
 
-    res.status(200).json({
-      posts,
-      totalPosts,
-      lastMonthPosts,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-export const getpostsTinTucSuKien = async (req, res, next) => {
-  try {
-    const startIndex = parseInt(req.query.startIndex) || 0;
-    const limit = parseInt(req.query.limit) || 9;
-    const sortDirection = req.query.order === 'asc' ? 'ASC' : 'DESC';
+      console.log(`Found ${posts.length} posts out of ${totalPosts} total`);
 
-    const { rows: posts, count: totalPosts } = await Post.findAndCountAll({
-      where: {
-        category: {
-          [Op.or]: ['su-kien', 'tin-tuc']
-        }
-      },
-      order: [['updatedAt', sortDirection]],
-      offset: startIndex,
-      limit,
-    });
-
-    res.status(200).json({
-      posts,
-      totalPosts,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-export const deletepost = async (req, res, next) => {
-  try {
-    const post = await Post.findByPk(req.params.postId);
-    if (!post) {
-      return next(errorHandler(404, 'Post not found'));
+      res.status(200).json({
+        posts,
+        totalPosts,
+      });
+    } catch (error) {
+      console.error('Error in getposts:', error);
+      res.status(500).json({ message: 'Internal server error', error: error.message });
     }
+  },
 
-    // Check if the user is the owner of the post or an admin
-    if (post.userId !== req.user.id && !req.user.isAdmin) {
-      return next(errorHandler(403, 'You are not allowed to delete this post'));
+  getpostsTinTucSuKien: async (req, res, next) => {
+    try {
+      const startIndex = parseInt(req.query.startIndex) || 0;
+      const limit = parseInt(req.query.limit) || 9;
+      const sortDirection = req.query.order === 'asc' ? 'ASC' : 'DESC';
+
+      const { rows: posts, count: totalPosts } = await Post.findAndCountAll({
+        where: {
+          category: {
+            [Op.or]: ['su-kien', 'tin-tuc']
+          }
+        },
+        order: [['updatedAt', sortDirection]],
+        offset: startIndex,
+        limit,
+      });
+
+      res.status(200).json({
+        posts,
+        totalPosts,
+      });
+    } catch (error) {
+      next(error);
     }
+  },
 
-    await post.destroy();
-    res.status(200).json({ success: true, message: 'Post deleted successfully' });
-  } catch (error) {
-    next(error);
-  }
-};
+  deletepost: async (req, res, next) => {
+    try {
+      const post = await Post.findByPk(req.params.postId);
+      if (!post) {
+        return next(errorHandler(404, 'Post not found'));
+      }
 
-export const updatepost = async (req, res, next) => {
-  try {
-    const post = await Post.findByPk(req.params.postId);
-    if (!post) {
-      return next(errorHandler(404, 'Post not found'));
+      // Check if the user is the owner of the post or an admin
+      if (post.userId !== req.user.id && !req.user.isAdmin) {
+        return next(errorHandler(403, 'You are not allowed to delete this post'));
+      }
+
+      await post.destroy();
+      res.status(200).json({ success: true, message: 'Post deleted successfully' });
+    } catch (error) {
+      next(error);
     }
+  },
 
-    // Check if the user is the owner of the post or an admin
-    if (post.userId !== req.user.id && !req.user.isAdmin) {
-      return next(errorHandler(403, 'You are not allowed to update this post'));
+  updatepost: async (req, res, next) => {
+    try {
+      const post = await Post.findByPk(req.params.postId);
+      if (!post) {
+        return next(errorHandler(404, 'Post not found'));
+      }
+
+      // Check if the user is the owner of the post or an admin
+      if (post.userId !== req.user.id && !req.user.isAdmin) {
+        return next(errorHandler(403, 'You are not allowed to update this post'));
+      }
+
+      const updatedPost = await post.update({
+        title: req.body.title,
+        content: req.body.content,
+        category: req.body.category,
+        image: req.body.image,
+      });
+
+      res.status(200).json(updatedPost);
+    } catch (error) {
+      next(error);
     }
-
-    const updatedPost = await post.update({
-      title: req.body.title,
-      content: req.body.content,
-      category: req.body.category,
-      image: req.body.image,
-    });
-
-    res.status(200).json(updatedPost);
-  } catch (error) {
-    next(error);
-  }
+  },
 };

@@ -4,6 +4,10 @@ import DashProfile from './components/DashProfile.jsx';
 import DashSidebar from './components/DashSidebar.jsx';
 import { useDispatch } from 'react-redux';
 import DashPosts from './components/DashPosts.jsx';
+import Cookies from 'js-cookie';
+import { signOutSuccess } from '../redux/user/userSlice.js';
+import useCheckAuth from "../../../api/utils/checkAuth";
+
 
 
 export default function Dashboard() {
@@ -20,16 +24,24 @@ export default function Dashboard() {
   }, [location.search]);
 
   useEffect(() => {
-    const checkTokenExpiry = () => {
-      const token = document.cookie.split('; ').find(row => row.startsWith('access_token='));
-      if (token) {
-        const tokenValue = token.split('=')[1];
-        const decodedToken = JSON.parse(atob(tokenValue.split('.')[1]));
+    const checkTokenExpiry = () => {      
+      const accessToken = Cookies.get('access_token');
+
+      if (!accessToken) {
+        navigate('/admin/dang-nhap');
+        return;
+      }
+
+      try {
+        const [header, payload, signature] = accessToken.split('.');
+        const decodedToken = JSON.parse(atob(payload));
         const expiryTime = decodedToken.exp * 1000;
         if (Date.now() >= expiryTime) {
-          dispatch(signOut());
+          dispatch(signOutSuccess());
           navigate('/admin/dang-nhap');
         }
+      } catch (error) {
+        navigate('/admin/dang-nhap');
       }
     };
 
@@ -37,6 +49,9 @@ export default function Dashboard() {
     const interval = setInterval(checkTokenExpiry, 60000); // Check every minute
     return () => clearInterval(interval);
   }, [dispatch, navigate]);
+
+  useCheckAuth();
+
   return(
     <div className='min-h-screen flex flex-col md:flex-row'>
       <div className='md:w-56'>

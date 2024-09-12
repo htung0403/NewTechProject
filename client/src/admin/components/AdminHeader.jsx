@@ -1,4 +1,4 @@
-import { Button, Navbar, NavbarCollapse, TextInput, Dropdown, Avatar } from 'flowbite-react'
+import { Button, Navbar, Dropdown, Avatar } from 'flowbite-react'
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { AiOutlineSearch, AiOutlineRight } from 'react-icons/ai'
@@ -12,11 +12,14 @@ export default function AdminHeader() {
   const path = useLocation().pathname;
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
-
+  const API_URL = process.env.NODE_ENV === 'production' 
+    ? 'https://namphuoc1.edu.vn/api' 
+    : 'http://localhost:3000/api';
   const handleSignout = async () => {
     try {
-      const res = await fetch(`/api/user/signout`, {
+      const res = await fetch(`${API_URL}/user/signout`, {
         method: 'POST',
+        credentials: 'include'
       });
       const data = await res.json();
       if (!res.ok) {

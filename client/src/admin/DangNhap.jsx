@@ -1,6 +1,6 @@
 import { Alert, Spinner } from 'flowbite-react';
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import {useDispatch, useSelector} from 'react-redux'
 import { signInSuccess, signInStart, signInFailure } from '../redux/user/userSlice.js';
 
@@ -10,6 +10,9 @@ export default function DangNhap() {
   const dispatch = useDispatch();
   const {loading, error: errorMessage} = useSelector(state => state.user);
   const navigate = useNavigate();
+  const API_URL = process.env.NODE_ENV === 'production' 
+    ? 'https://namphuoc1.edu.vn/api' 
+    : 'http://localhost:5173/api';
   const handleChage = (e) => {
     setFormData({
       ...formData,
@@ -23,19 +26,22 @@ export default function DangNhap() {
     }
     try {
       dispatch(signInStart());
-      const res = await fetch('/api/auth/signin', {
+      const res = await fetch(`${API_URL}/auth/signin`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
+        credentials: 'include'
       });
       const data = await res.json();
+
       if (data.success === false) {
         dispatch(signInFailure(data.message));
       }
 
       if (res.ok) {
         dispatch(signInSuccess(data));
-        navigate('/admin');
+        console.log('Cookies after login:', document.cookie); // Log cookies after login
+        navigate('/dashboard?tab=ho-so');
       }
     } catch (error) {
       dispatch(signInFailure(error.message));

@@ -45,7 +45,7 @@ export default function App() {
         <Route path='/ban-chap-hanh-cong-doan' element={<PublicLayout><BanChapHanhCongDoan /></PublicLayout>} />
         <Route path='/ban-giam-hieu' element={<PublicLayout><BanGiamHieu /></PublicLayout>} />
         <Route path='/chi-bo-dang' element={<PublicLayout><ChiBoDang /></PublicLayout>} />
-        <Route path='/phu-huynh/thong-bao-chung' element={<PublicLayout><PhuHuynh /></PublicLayout>} />
+        <Route path='/phu-huynh' element={<PublicLayout><PhuHuynh /></PublicLayout>} />
         <Route path='/admin/dang-nhap' element={<AdminLayout><DangNhap /></AdminLayout>} />
         <Route path='/:postSlug' element= {<PublicLayout><PostPage/></PublicLayout>} />
         <Route path='/search' element= {<PublicLayout><Search/></PublicLayout>} />
