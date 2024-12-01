@@ -1,4 +1,3 @@
-import React from "react";
 import img from "../images/background_card/image.png";
 
 export default function ChuongTrinhTieuChuanBGD() {

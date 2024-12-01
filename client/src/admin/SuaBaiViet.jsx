@@ -1,4 +1,4 @@
-import { Alert, Button, FileInput, Select, TextInput } from "flowbite-react";
+import { Alert, Button, FileInput, TextInput } from "flowbite-react";
 import ReactQuill, { Quill } from "react-quill";
 import imageResize from "quill-image-resize-module-react";
 import {
@@ -16,7 +16,8 @@ import { useSelector } from "react-redux";
 import "./styles.css";
 import imageHandler from "./components/imageHandler";
 import "quill/dist/quill.snow.css";
-import useCheckAuth from "../../../api/utils/checkAuth";
+import useCheckAuth from "../../../api/utils/checkAuth.js";
+import Select from 'react-select';
 
 export default function UpdatePost() {
   Quill.register("modules/imageResize", imageResize);
@@ -31,6 +32,7 @@ export default function UpdatePost() {
   const { postId } = useParams();
   const [category, setCategory] = useState("uncategorized");
   const [error, setError] = useState("");
+  const [selectedCategories, setSelectedCategories] = useState([]);
 
   useCheckAuth();
 
@@ -68,7 +70,7 @@ export default function UpdatePost() {
     setError("");
     const fetchPost = async () => {
       try {
-        const res = await fetch(`/api/post/getposts?postId=${postId}`);
+        const res = await fetch(`http://localhost:3005/api/post/getposts?postId=${postId}`);
         const data = await res.json();
         if (!res.ok) {
           console.log(data.message);
@@ -79,7 +81,11 @@ export default function UpdatePost() {
           setPublishError(null);
           setFormData(data.posts[0]);
           // Set the category based on the fetched data
-          setCategory(data.posts[0].category || "uncategorized");
+          const categoriesArray = data.posts[0].category.split(', ').map(cat => ({
+            value: cat,
+            label: cat === 'tin-tuc' ? 'Tin tức' : cat === 'su-kien' ? 'Sự kiện' : cat === 'phu-huynh' ? 'Phụ huynh' : cat === 'van-ban-cong-khai' ? 'Văn bản công khai' : cat // Thay đổi tên hiển thị nếu cần
+          }));
+          setSelectedCategories(categoriesArray); // Update selectedCategories
         }
       } catch (error) {
         console.log(error.message);
@@ -128,18 +134,20 @@ export default function UpdatePost() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (category === "uncategorized") {
-      setError("Vui lòng chọn một danh mục.");
+    console.log("Selected Categories:", selectedCategories); // Kiểm tra giá trị
+    if (selectedCategories.length === 0) {
+      setError("Vui lòng chọn ít nhất một danh mục.");
       return;
     }
     try {
       const res = await fetch(
-        `/api/post/updatepost/${postId}/${currentUser.id}`,
+        `http://localhost:3005/api/post/updatepost/${postId}/${currentUser.id}`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
+          credentials: "include",
           body: JSON.stringify(formData),
         }
       );
@@ -157,6 +165,18 @@ export default function UpdatePost() {
       setPublishError("Đã xảy ra lỗi");
     }
   };
+  const options = [
+    { value: "tin-tuc", label: "Tin tức" },
+    { value: "su-kien", label: "Sự kiện" },
+    { value: "phu-huynh", label: "Phụ huynh" },
+    { value: "van-ban-cong-khai", label: "Văn bản công khai" },
+  ];
+  const handleCategoryChange = (selectedOptions) => {
+    setSelectedCategories(selectedOptions);
+    // Cập nhật formData với danh mục đã chọn
+    setFormData({ ...formData, category: selectedOptions.map(cat => cat.value).join(', ') });
+  };
+
   return (
     <div className="p-3 max-w-[70rem] mx-auto min-h-screen">
       <h1 className="text-center text-3xl my-7 font-semibold">
@@ -176,18 +196,14 @@ export default function UpdatePost() {
             value={formData.title}
           />
           <Select
-            value={category}
-            onChange={(e) => {
-              setCategory(e.target.value);
-              setFormData({ ...formData, category: e.target.value });
-            }}
+            isMulti
+            options={options}
+            value={selectedCategories}
+            onChange={handleCategoryChange}
+            placeholder="Chọn danh mục..."
             required
-          >
-            <option value="uncategorized">Chọn một danh mục</option>
-            <option value="tin-tuc">Tin tức</option>
-            <option value="su-kien">Sự kiện</option>
-            <option value="phu-huynh">Phụ huynh</option>
-          </Select>
+          />
+        
         </div>
         <div className="flex gap-4 items-center justify-between border-4 border-blue-300 border-dashed p-3">
           <FileInput

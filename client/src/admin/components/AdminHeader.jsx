@@ -1,7 +1,5 @@
 import { Button, Navbar, Dropdown, Avatar } from 'flowbite-react'
-import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { AiOutlineSearch, AiOutlineRight } from 'react-icons/ai'
 import '../../index.css';
 import {useSelector, useDispatch} from 'react-redux'
 import { signOutSuccess } from '../../redux/user/userSlice';
@@ -14,7 +12,7 @@ export default function AdminHeader() {
   const { currentUser } = useSelector((state) => state.user);
   const API_URL = process.env.NODE_ENV === 'production' 
     ? 'https://namphuoc1.edu.vn/api' 
-    : 'http://localhost:3000/api';
+    : 'http://127.0.0.1:3005/api';
   const handleSignout = async () => {
     try {
       const res = await fetch(`${API_URL}/user/signout`, {

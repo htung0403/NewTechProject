@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import {
   Alert,
@@ -46,7 +46,7 @@ export default function DashProfile() {
   const dispatch = useDispatch();
   const API_URL = process.env.NODE_ENV === 'production' 
     ? 'https://namphuoc1.edu.vn/api' 
-    : 'http://localhost:3000/api';
+    : 'http://localhost:3005/api';
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {

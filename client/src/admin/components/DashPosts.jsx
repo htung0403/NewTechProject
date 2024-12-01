@@ -7,9 +7,8 @@ import {
   TableRow,
   Modal,
   Button,
-
 } from "flowbite-react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
@@ -22,19 +21,17 @@ export default function DashPosts() {
   const [postIdToDelete, setPostIdToDelete] = useState('');
   const API_URL = process.env.NODE_ENV === 'production' 
     ? 'https://namphuoc1.edu.vn/api' 
-    : 'http://localhost:3000/api';
+    : 'http://localhost:3005/api';
 
   const getCategoryDisplayName = (category) => {
-    switch (category) {
-      case 'tin-tuc':
-        return 'Tin Tức';
-      case 'su-kien':
-        return 'Sự Kiện';
-      case 'phu-huynh':
-        return 'Phụ Huynh';
-      default:
-        return category;
-    }
+    const categoryMap = {
+      'tin-tuc': 'Tin Tức',
+      'su-kien': 'Sự Kiện',
+      'phu-huynh': 'Phụ Huynh',
+      'van-ban-cong-khai': 'Văn bản công khai',
+    };
+
+    return category.split(',').map(cat => categoryMap[cat.trim()] || cat.trim()).join(', ');
   };
 
   useEffect(() => {

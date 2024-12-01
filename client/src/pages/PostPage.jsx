@@ -1,7 +1,6 @@
 import { Button, Spinner } from "flowbite-react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import CallToAction from "./CallToAction";
 import PostCard from "../components/PostCard";
 
 export default function PostPage() {
@@ -13,7 +12,7 @@ export default function PostPage() {
 
   const API_URL = process.env.NODE_ENV === 'production' 
     ? 'https://namphuoc1.edu.vn/api' 
-    : 'http://localhost:3000/api';
+    : 'http://localhost:3005/api';
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -66,6 +65,8 @@ export default function PostPage() {
         return 'Sự Kiện';
       case 'phu-huynh':
         return 'Phụ Huynh';
+      case 'van-ban-cong-khai':
+        return 'Văn bản công khai';
       default:
         return category;
     }
@@ -82,19 +83,20 @@ export default function PostPage() {
       <h1 className="text-3xl mt-10 p-3 font-semibold text-center max-w-2xl mx-auto lg:text-4xl">
         {post && post.title}
       </h1>
-      <Link
-        to={`/${post && post.category}`}
-        className="self-center mt-5"
-      >
-        <Button color="gray" pill size="xs">
-          {post && getCategoryDisplayName(post.category)}
-        </Button>
-      </Link>
+      <div className="flex justify-center mt-5">
+        {post && post.category.split(',').map((category, index) => (
+          <Link key={index} to={`/${category.trim()}`} className="mr-2">
+            <Button color="gray" pill size="xs">
+              {getCategoryDisplayName(category.trim())}
+            </Button>
+          </Link>
+        ))}
+      </div>
       {!post?.isFile && (
         <img
           src={post && post.image}
           alt={post && post.title}
-          className="mt-10 p-3 h-fit max-w-1000px object-contain"
+          className="mt-10 p-3 h-fit max-h-[700px] max-w-1000px object-contain"
         />
       )}
       <div className="flex justify-start p-3 border-b border-slate-500 mx-auto max-w-2xl text-sm italic">

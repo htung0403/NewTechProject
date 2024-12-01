@@ -1,11 +1,9 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
-import GioiThieu from './pages/GioiThieu';
 import DangKy from './admin/DangKy';
 import Dashboard from './admin/Dashboard';
 import LienHe from './pages/LienHe';
-import TuyenSinh from './pages/TuyenSinh';
 import DangNhap from './admin/DangNhap';
 import PublicLayout from './layout/PublicLayout';
 import AdminLayout from './layout/AdminLayout';
@@ -26,6 +24,8 @@ import BanChapHanhCongDoan from './pages/BanChapHanhCongDoan';
 import BanGiamHieu from './pages/BanGiamHieu';
 import ChiBoDang from './pages/ChiBoDang';
 import PhuHuynh from './pages/PhuHuynh';
+import VanBanCongKhai from './pages/VanBanCongKhai';
+import Chat from './components/Chat';
 
 export default function App() {
   return (
@@ -34,10 +34,8 @@ export default function App() {
       <Routes>
         {/* Public Routes */}
         <Route path='/' element={<PublicLayout><Home /></PublicLayout>} />
-        <Route path='/gioi-thieu' element={<PublicLayout><GioiThieu /></PublicLayout>} />
         <Route path='/gioi-thieu/thu-ngo' element={<PublicLayout><ThuNgo /></PublicLayout>} />
         <Route path='/lien-he' element={<PublicLayout><LienHe /></PublicLayout>} />
-        <Route path='/tuyensinh' element={<PublicLayout><TuyenSinh /></PublicLayout>} />
         <Route path='/tin-tuc' element={<PublicLayout><TinTuc /></PublicLayout>} />
         <Route path='/su-kien' element={<PublicLayout><SuKien /></PublicLayout>} />
         <Route path='/chuong-trinh-tieu-chuan-bo-gddt' element={<PublicLayout><ChuongTrinhTieuChuanBGD /></PublicLayout>} />
@@ -49,6 +47,9 @@ export default function App() {
         <Route path='/admin/dang-nhap' element={<AdminLayout><DangNhap /></AdminLayout>} />
         <Route path='/:postSlug' element= {<PublicLayout><PostPage/></PublicLayout>} />
         <Route path='/search' element= {<PublicLayout><Search/></PublicLayout>} />
+        <Route path='/van-ban-cong-khai' element= {<PublicLayout><VanBanCongKhai/></PublicLayout>} />
+        <Route path='/chat' element= {<PublicLayout><Chat/></PublicLayout>} />
+
         {/* Admin Routes */}
         <Route element={<PrivateRoute/>}>
           <Route path='/dashboard' element={<AdminLayout><Dashboard /></AdminLayout>} />

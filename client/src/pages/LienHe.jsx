@@ -1,4 +1,3 @@
-import React from "react";
 
 export default function LienHe() {
   document.title = `THÔNG TIN LIÊN HỆ - TRƯỜNG TIỂU HỌC NAM PHƯỚC 1`;

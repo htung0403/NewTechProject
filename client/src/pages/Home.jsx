@@ -1,7 +1,5 @@
-import React from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import background1 from "../images/background_card/IMG_0283.JPG";
 import background2 from "../images/background_card/image.png";
 import khoahocimg from "../images/khoahoc.png";
 import ngonnguimg from "../images/languages.png";
@@ -11,26 +9,43 @@ import line from "../images/line-min.png";
 import PostCard from "../components/PostCard";
 import { useState, useEffect } from "react";
 
-import image5 from "../images/slider/DJI_0406.JPG";
-import image2 from "../images/slider/IMG_1121-min.JPG";
-const image3 = "https://firebasestorage.googleapis.com/v0/b/namphuoc1-web.appspot.com/o/z5755048946809_5bfc8efd5f1d41bd998fbb6761b1756c.jpg?alt=media&token=660ed22c-5292-4f42-81ef-401ccdc2c11f";
-import image4 from "../images/slider/IMG_7133.JPG";
-const image1 = "https://firebasestorage.googleapis.com/v0/b/namphuoc1-web.appspot.com/o/z5755048930046_0ba18821abf2c1d4ba478e82479762db.jpg?alt=media&token=27ac0c87-3a43-4259-a5ef-e9d08a08bd3c";
+const background1 = "https://firebasestorage.googleapis.com/v0/b/namphuoc1-web.appspot.com/o/IMG_0283.JPG?alt=media&token=f1586bd2-ac33-41f8-8c93-a6c7e414d1f7";
+const image5 =
+  "https://firebasestorage.googleapis.com/v0/b/namphuoc1-web.appspot.com/o/DJI_0406.JPG?alt=media&token=d857c285-29b1-40dc-afbf-d2825b2c7f5c";
+const image2 =
+  "https://firebasestorage.googleapis.com/v0/b/namphuoc1-web.appspot.com/o/IMG_1121-min.JPG?alt=media&token=c6c95f0a-a696-4b5b-a9fe-0cc6a299e8d6";
+const image6 =
+  "https://firebasestorage.googleapis.com/v0/b/namphuoc1-web.appspot.com/o/IMG_2015-min.JPG?alt=media&token=6b2cac3d-3a51-4a79-bba7-729fc367ea71";
+const image3 =
+  "https://firebasestorage.googleapis.com/v0/b/namphuoc1-web.appspot.com/o/z5755048946809_5bfc8efd5f1d41bd998fbb6761b1756c.jpg?alt=media&token=660ed22c-5292-4f42-81ef-401ccdc2c11f";
+const image4 =
+  "https://firebasestorage.googleapis.com/v0/b/namphuoc1-web.appspot.com/o/postImages%2F1725488944833-IMG_7133.jpg?alt=media&token=241c4f80-4a6f-4244-a7b0-a659e66bd36b";
+const image1 =
+  "https://firebasestorage.googleapis.com/v0/b/namphuoc1-web.appspot.com/o/z5755048930046_0ba18821abf2c1d4ba478e82479762db.jpg?alt=media&token=27ac0c87-3a43-4259-a5ef-e9d08a08bd3c";
 const images = [image1, image2, image3, image4, image5];
 
 export default function Home() {
   const [recentPosts, setRecentPosts] = useState(null);
-  
+
   document.title = `TRƯỜNG TIỂU HỌC NAM PHƯỚC 1`;
-  const API_URL = process.env.NODE_ENV === 'production' 
-    ? 'https://namphuoc1.edu.vn/api' 
-    : 'http://localhost:3000/api';
+  const API_URL =
+    process.env.NODE_ENV === "production"
+      ? "https://namphuoc1.edu.vn/api"
+      : "http://localhost:3005/api";
 
   useEffect(() => {
     const fetchRecentPosts = async () => {
       try {
         const res = await fetch(`${API_URL}/post/gettintucsukien?limit=3`);
+
+        const contentType = res.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+          throw new Error("Received non-JSON response");
+        }
         const data = await res.json();
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
         if (res.ok) {
           setRecentPosts(data.posts);
         }
@@ -136,7 +151,7 @@ export default function Home() {
           </div>
           <div className="image-column">
             <img
-              src={image3}
+              src={image6}
               alt="Description"
               className="w-full h-auto object-cover mb-4 rounded-lg border-2 border-slate-800"
             />
@@ -174,9 +189,7 @@ export default function Home() {
             />
             <b className="text-[30px] mt-3">Kết quả giáo dục</b>
             <img src={line} alt="line" className="w-[130px] mt-3" />
-            <p className="text-center mt-2 text-[17px]">
-             
-            </p>
+            <p className="text-center mt-2 text-[17px]"></p>
           </div>
           <div className="w-full md:w-1/4 flex flex-col justify-center items-center mb-6 md:mb-0">
             <img
@@ -186,8 +199,7 @@ export default function Home() {
             />
             <b className="text-[30px] mt-3">Câu lạc bộ</b>
             <img src={line} alt="line" className="w-[130px] mt-3" />
-            <p className="text-center mt-2 text-[17px]">
-            </p>
+            <p className="text-center mt-2 text-[17px]"></p>
           </div>
           <div className="w-full md:w-1/4 flex flex-col justify-center items-center mb-6 md:mb-0">
             <img
@@ -197,9 +209,7 @@ export default function Home() {
             />
             <b className="text-[30px] mt-3">Học sinh năng khiếu</b>
             <img src={line} alt="line" className="w-[130px] mt-3" />
-            <p className="text-center mt-2 text-[17px]">
-              
-            </p>
+            <p className="text-center mt-2 text-[17px]"></p>
           </div>
           <div className="w-full md:w-1/4 flex flex-col justify-center items-center mb-6 md:mb-0">
             <img
@@ -227,22 +237,42 @@ export default function Home() {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8 w-full">
         <div className="md:row-span-2 flex justify-center h-[320px] md:h-[670px]">
-          <img src="https://firebasestorage.googleapis.com/v0/b/namphuoc1-web.appspot.com/o/z5782120322596_bfbd9a8fc457d05eca4973b1c5eed106.jpg?alt=media&token=55b8277d-14e6-41cf-8b79-0393127dc728" alt="Left Column" className="w-full h-full object-cover object-bottom" />
+          <img
+            src="https://firebasestorage.googleapis.com/v0/b/namphuoc1-web.appspot.com/o/z5782120322596_bfbd9a8fc457d05eca4973b1c5eed106.jpg?alt=media&token=55b8277d-14e6-41cf-8b79-0393127dc728"
+            alt="Left Column"
+            className="w-full h-full object-cover object-bottom"
+          />
         </div>
         <div className="flex flex-col justify-between h-full gap-4 md:gap-8">
           <div className="flex justify-center h-[320px]">
-            <img src="https://firebasestorage.googleapis.com/v0/b/namphuoc1-web.appspot.com/o/z5755048954237_51401dd8e0501fc984706e288f47ce12.jpg?alt=media&token=47e5f2be-b5f2-4e55-9fdc-40f11689c66d" alt="Middle Top" className="w-full h-full object-cover object-bottom" />
+            <img
+              src="https://firebasestorage.googleapis.com/v0/b/namphuoc1-web.appspot.com/o/z5755048954237_51401dd8e0501fc984706e288f47ce12.jpg?alt=media&token=47e5f2be-b5f2-4e55-9fdc-40f11689c66d"
+              alt="Middle Top"
+              className="w-full h-full object-cover object-bottom"
+            />
           </div>
           <div className="flex justify-center h-[320px]">
-            <img src='https://firebasestorage.googleapis.com/v0/b/namphuoc1-web.appspot.com/o/z5755048930046_0ba18821abf2c1d4ba478e82479762db.jpg?alt=media&token=27ac0c87-3a43-4259-a5ef-e9d08a08bd3c' alt="Middle Bottom" className="w-full h-full object-cover object-bottom" />
+            <img
+              src="https://firebasestorage.googleapis.com/v0/b/namphuoc1-web.appspot.com/o/z5755048930046_0ba18821abf2c1d4ba478e82479762db.jpg?alt=media&token=27ac0c87-3a43-4259-a5ef-e9d08a08bd3c"
+              alt="Middle Bottom"
+              className="w-full h-full object-cover object-bottom"
+            />
           </div>
         </div>
         <div className="flex flex-col justify-between h-full gap-4 md:gap-8">
           <div className="flex justify-center h-[320px]">
-            <img src={image3} alt="Middle Top" className="w-full h-full object-cover object-bottom" />
+            <img
+              src={image3}
+              alt="Middle Top"
+              className="w-full h-full object-cover object-bottom"
+            />
           </div>
           <div className="flex justify-center h-[320px]">
-            <img src='https://firebasestorage.googleapis.com/v0/b/namphuoc1-web.appspot.com/o/z5755048915247_2f388ccf53bb888e47b838c0fe432a32.jpg?alt=media&token=72075a2e-0220-4a2f-8514-75b8e6a47ab1' alt="Middle Bottom" className="w-full h-full object-cover object-bottom" />
+            <img
+              src="https://firebasestorage.googleapis.com/v0/b/namphuoc1-web.appspot.com/o/z5755048915247_2f388ccf53bb888e47b838c0fe432a32.jpg?alt=media&token=72075a2e-0220-4a2f-8514-75b8e6a47ab1"
+              alt="Middle Bottom"
+              className="w-full h-full object-cover object-bottom"
+            />
           </div>
         </div>
       </div>

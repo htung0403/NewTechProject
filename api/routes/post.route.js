@@ -5,6 +5,7 @@ const postController = require('../controller/post.controller.js');
 const router = express.Router();
 
 router.post('/create', verifyToken, postController.create)
+router.post('/uploadFile', verifyToken, postController.uploadFile)
 router.get('/getposts', postController.getposts)
 router.get('/gettintucsukien', postController.getpostsTinTucSuKien)
 router.delete('/deletepost/:postId/:userId', verifyToken, postController.deletepost)

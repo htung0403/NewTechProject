@@ -16,6 +16,8 @@ export default function PostCardSquare({ post }) {
         return 'Sự Kiện';
       case 'phu-huynh':
         return 'Phụ Huynh';
+      case 'van-ban-cong-khai':
+        return 'Văn bản công khai';
       default:
         return category;
     }
@@ -35,10 +37,21 @@ export default function PostCardSquare({ post }) {
         {!post.isFile && (
           <p className='text-sm line-clamp-3'>{stripHtmlTags(post.content)}</p>
         )}
-        <div className='mt-auto self-end text-xs'>
-          <span>
-            {post && new Date(post.createdAt).toLocaleDateString("en-GB")}
-          </span>
+        <div className='mt-1 flex justify-between items-center'>
+          <div className='flex flex-wrap gap-1'>
+            {post.category.split(',').map((category, index) => (
+              <Link key={index} to={`/${category.trim()}`} className='flex-shrink-0'>
+                <span className='bg-cyan-600 text-white text-xs font-semibold px-2 py-1 rounded'>
+                  {getCategoryDisplayName(category.trim())}
+                </span>
+              </Link>
+            ))}
+          </div>
+          <div className='text-xs'>
+            <span>
+              {post && new Date(post.createdAt).toLocaleDateString("en-GB")}
+            </span>
+          </div>
         </div>
         <Link
           to={`/${post.slug}`}

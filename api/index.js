@@ -12,8 +12,8 @@ const postRoutes = require("./routes/post.route");
 
 dotenv.config();
 
-const sequelize = new Sequelize('xipzj0bsyxqk_namphuoc1', 'xipzj0bsyxqk_htung0403', 'gianchun12@', {
-  host: 's1002.genhosting.vn',
+const sequelize = new Sequelize(process.env.MYSQL_DB, process.env.MYSQL_USER, process.env.MYSQL_PASSWORD, {
+  host: process.env.MYSQL_HOST,
   dialect: "mysql",
 });
 
@@ -27,22 +27,22 @@ sequelize.authenticate()
 
 const app = express();
 
+// const corsOptions = {
+//   origin: process.env.NODE_ENV === 'production' ? 'https://namphuoc1.edu.vn' : 'http://localhost:5173',
+//   credentials: true,
+// };
 const corsOptions = {
-  origin: process.env.NODE_ENV === 'production' ? 'https://namphuoc1.edu.vn' : 'http://localhost:5173',
-  credentials: true, // Allow credentials (cookies) to be sent
+  origin: 'http://localhost:5173', // Allow requests from this origin
+  credentials: true,
 };
-
 app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({
-  origin: process.env.NODE_ENV === 'production' ? 'https://namphuoc1.edu.vn' : 'http://localhost:5173',
-  credentials: true
-}));
 
-app.listen(process.env.PORT || 3000, () => {
-  console.log(`Server is running on port ${process.env.PORT || 3000}`);
+
+app.listen(process.env.PORT || 3005, () => {
+  console.log(`Server is running on port ${process.env.PORT || 3005}`);
 });
 
 app.use(bodyParser.json({ limit: "50mb" }));

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import PostCardSquare from '../components/PostCardSquare';
+import { useState, useEffect } from "react";
+import PostCardSquare from "../components/PostCardSquare";
 
-const TinTuc = () => {
+export default function TinTuc() {
   document.title = `TIN TỨC - TRƯỜNG TIỂU HỌC NAM PHƯỚC 1`;
 
   const [posts, setPosts] = useState([]);
@@ -11,12 +11,14 @@ const TinTuc = () => {
 
   const API_URL = process.env.NODE_ENV === 'production' 
     ? 'https://namphuoc1.edu.vn/api' 
-    : 'http://localhost:3000/api';
+    : 'http://localhost:3005/api';
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch(`${API_URL}/post/getposts?category=tin-tuc`);
+        const response = await fetch(
+          `${API_URL}/post/getposts?category=tin-tuc`
+        );
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -89,5 +91,3 @@ const TinTuc = () => {
     </div>
   );
 }
-
-export default TinTuc;

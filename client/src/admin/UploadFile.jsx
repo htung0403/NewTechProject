@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { app } from '../firebase.js';
-import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
-import { Alert, Button, FileInput, Select, TextInput } from 'flowbite-react';
+import { Alert, Button, FileInput, TextInput } from 'flowbite-react';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { useNavigate } from 'react-router-dom';
-import useCheckAuth from "../../../api/utils/checkAuth";
+import useCheckAuth from "../../../api/utils/checkAuth.js";
+import Select from 'react-select';
 
 const UploadFile = () => {
   const [file, setFile] = useState(null);
@@ -14,12 +14,22 @@ const UploadFile = () => {
   const [uploadError, setUploadError] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(null);
   const [formData, setFormData] = useState({ title: ''});
-  const [category, setCategory] = useState('uncategorized');
+  const [selectedCategories, setSelectedCategories] = useState([]);
   const [error, setError] = useState('');
 
+  const options = [
+    { value: "tin-tuc", label: "Tin tức" },
+    { value: "su-kien", label: "Sự kiện" },
+    { value: "phu-huynh", label: "Phụ huynh" },
+    { value: "van-ban-cong-khai", label: "Văn bản công khai" },
+  ];
+  
   const navigate = useNavigate();
   useCheckAuth();
 
+  const handleCategoryChange = (selectedOptions) => {
+    setSelectedCategories(selectedOptions);
+  };
   const handleUploadFile = async () => {
     try {
       if (!file) {
@@ -59,8 +69,8 @@ const UploadFile = () => {
   };
 
   const handleCreatePost = async () => {
-    if (category === 'uncategorized') {
-      setError('Vui lòng chọn một danh mục.');
+    if (selectedCategories.length === 0) {
+      setError("Vui lòng chọn ít nhất một danh mục.");
       return;
     }
     if (!fileUrl) {
@@ -68,23 +78,24 @@ const UploadFile = () => {
       return;
     }
 
+    const categoriesString = selectedCategories.map(option => option.value).join(', ');
+
     try {
-      const res = await fetch('/api/post/create', {
-        method: 'POST',
+      const res = await fetch('http://localhost:3005/api/post/uploadFile', { 
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify({
           title: formData.title,
           content: fileUrl,
-          category: formData.category,
-          isFile: true,
+          category: categoriesString,
+          isFile: true, 
         }),
       });
       if (res.ok) {
         const data = await res.json();
-        console.log('Post created:', data); // Kiểm tra phản hồi từ API
         setUploadError(null);
         navigate(`/${data.slug}`);
       } else {
@@ -110,18 +121,12 @@ const UploadFile = () => {
             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
           />
           <Select
-            value={category}
-            onChange={(e) => {
-              setCategory(e.target.value);
-              setFormData({ ...formData, category: e.target.value });
-            }}
-            required
-          >
-            <option value='uncategorized'>Chọn một danh mục</option>
-            <option value='tin-tuc'>Tin tức</option>
-            <option value='su-kien'>Sự kiện</option>
-            <option value='phu-huynh'>Phụ huynh</option>
-          </Select>
+            isMulti
+            options={options}
+            value={selectedCategories}
+            onChange={handleCategoryChange}
+            placeholder="Chọn danh mục..."
+          />  
         </div>
         <div className='flex gap-4 items-center justify-between border-4 border-blue-300 border-dashed p-3'>
           <FileInput

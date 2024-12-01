@@ -1,8 +1,9 @@
 import { Alert, Spinner } from 'flowbite-react';
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {useDispatch, useSelector} from 'react-redux'
 import { signInSuccess, signInStart, signInFailure } from '../redux/user/userSlice.js';
+import Cookies from 'js-cookie';
 
 
 export default function DangNhap() {
@@ -12,7 +13,7 @@ export default function DangNhap() {
   const navigate = useNavigate();
   const API_URL = process.env.NODE_ENV === 'production' 
     ? 'https://namphuoc1.edu.vn/api' 
-    : 'http://localhost:5173/api';
+    : 'http://localhost:3005/api';
   const handleChage = (e) => {
     setFormData({
       ...formData,
@@ -33,6 +34,7 @@ export default function DangNhap() {
         credentials: 'include'
       });
       const data = await res.json();
+      console.log(data); // Log the response to check if the token is included
 
       if (data.success === false) {
         dispatch(signInFailure(data.message));
@@ -41,6 +43,7 @@ export default function DangNhap() {
       if (res.ok) {
         dispatch(signInSuccess(data));
         console.log('Cookies after login:', document.cookie); // Log cookies after login
+        console.log('Access Token:', Cookies.get('access_token')); // Check if the token is available
         navigate('/dashboard?tab=ho-so');
       }
     } catch (error) {

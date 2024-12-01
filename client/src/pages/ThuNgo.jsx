@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function ThuNgo() {
   document.title = `THÔNG ĐIỆP NĂM HỌC - TRƯỜNG TIỂU HỌC NAM PHƯỚC 1`;
 

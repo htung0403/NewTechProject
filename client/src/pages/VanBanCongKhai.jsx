@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import PostCardSquare from '../components/PostCardSquare';
 
-const PhuHuynh = () => {
-  document.title = `PHỤ HUYNH - TRƯỜNG TIỂU HỌC NAM PHƯỚC 1`;
+const VanBanCongKhai = () => {
+  document.title = `VĂN BẢN CÔNG KHAI - TRƯỜNG TIỂU HỌC NAM PHƯỚC 1`;
 
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -16,9 +16,7 @@ const PhuHuynh = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:3005/api/post/getposts?category=phu-huynh`
-        );
+        const response = await fetch(`${API_URL}/post/getposts?category=van-ban-cong-khai`);
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -47,7 +45,7 @@ const PhuHuynh = () => {
   const handleShowMore = async () => {
     const startIndex = posts.length;
     try {
-        const res = await fetch(`${API_URL}/post/getposts?category=phu-huynh&startIndex=${startIndex}`);
+        const res = await fetch(`${API_URL}/post/getposts?category=van-ban-cong-khai&startIndex=${startIndex}`);
         const data = await res.json();
         if (res.ok) {
             setPosts((prev) => [...prev, ...data.posts]);
@@ -60,6 +58,8 @@ const PhuHuynh = () => {
     }
   };
 
+  console.log("Posts:", posts);
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
@@ -68,7 +68,7 @@ const PhuHuynh = () => {
       <div className="flex flex-row justify-start">
         <div className="w-3 h-10 mr-4 bg-cyan-600 border rounded-lg"></div>
         <h1 className="font-semibold text-[1.7rem] text-cyan-600">
-          THÔNG BÁO CHUNG DÀNH CHO PHỤ HUYNH
+          VĂN BẢN CÔNG KHAI CỦA TRƯỜNG
         </h1>
       </div>
       <div className="grid grid-cols-1 gap-4 mt-6">
@@ -90,4 +90,4 @@ const PhuHuynh = () => {
   );
 }
 
-export default PhuHuynh;
+export default VanBanCongKhai;

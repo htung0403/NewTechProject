@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Sidebar,
   SidebarItem,
@@ -18,7 +17,7 @@ export default function DashSidebar() {
   const { currentUser } = useSelector((state) => state.user);
   const API_URL = process.env.NODE_ENV === 'production' 
     ? 'https://namphuoc1.edu.vn/api' 
-    : 'http://localhost:3000/api';
+    : 'http://localhost:3005/api';
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const tabFromUrl = urlParams.get("tab");

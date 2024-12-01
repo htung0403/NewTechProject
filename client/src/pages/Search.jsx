@@ -22,7 +22,7 @@ export default function Search() {
 
   const API_URL = process.env.NODE_ENV === 'production' 
     ? 'https://namphuoc1.edu.vn/api' 
-    : 'http://localhost:3000/api';
+    : 'http://localhost:3005/api';
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -41,7 +41,7 @@ export default function Search() {
     const fetchPosts = async () => {
       setLoading(true);
       const searchQuery = urlParams.toString();
-      const res = await fetch(`${API_URL}/post/getposts?${searchQuery}`);
+      const res = await fetch(`http://localhost:3005/api/post/getposts?${searchQuery}`);
       if (!res.ok) {
         setLoading(false);
         return;
@@ -97,7 +97,7 @@ export default function Search() {
     const urlParams = new URLSearchParams(location.search);
     urlParams.set("startIndex", startIndex);
     const searchQuery = urlParams.toString();
-    const res = await fetch(`${API_URL}/post/getposts?${searchQuery}`);
+    const res = await fetch(`http://localhost:3005/api/post/getposts?${searchQuery}`);
     if (!res.ok) {
       return;
     }

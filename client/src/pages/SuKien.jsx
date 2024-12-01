@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import PostCardSquare from "../components/PostCardSquare";
 
 export default function SuKien() {
@@ -11,7 +11,7 @@ export default function SuKien() {
 
   const API_URL = process.env.NODE_ENV === 'production' 
     ? 'https://namphuoc1.edu.vn/api' 
-    : 'http://localhost:3000/api';
+    : 'http://localhost:3005/api';
 
   useEffect(() => {
     const fetchPosts = async () => {

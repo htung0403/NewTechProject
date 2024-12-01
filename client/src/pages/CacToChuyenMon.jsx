@@ -1,5 +1,3 @@
-import React, {useEffect} from "react";
-import img from "../images/background_card/image.png";
 import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from "flowbite-react";
 
 export default function CacToChuyenMon() {

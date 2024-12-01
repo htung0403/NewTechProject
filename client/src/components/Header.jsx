@@ -3,9 +3,8 @@ import {
   Navbar,
   NavbarCollapse,
   TextInput,
-  Dropdown,
 } from "flowbite-react";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AiOutlineSearch, AiOutlineRight } from "react-icons/ai";
 import "../index.css";
@@ -20,6 +19,26 @@ export default function Header() {
   const [activeSubMenu, setActiveSubMenu] = useState(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
+  const API_URL =
+    process.env.NODE_ENV === "production"
+      ? "https://namphuoc1.edu.vn/api"
+      : "http://127.0.0.1:3005/api";
+  const handleSignout = async () => {
+    try {
+      const res = await fetch(`${API_URL}/user/signout`, {
+        method: "POST",
+        credentials: "include",
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signOutSuccess());
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
@@ -161,6 +180,16 @@ export default function Header() {
               </Link>
             </div>
           </div>
+        </div>
+        <div className="relative group">
+          <Link
+            to="/van-ban-cong-khai"
+            className="py-3 font-bold text-[16px] font-sans cursor-pointer"
+          >
+            <div className="py-3 font-bold text-[1rem] font-sans cursor-pointer">
+              VĂN BẢN CÔNG KHAI
+            </div>
+          </Link>
         </div>
         <div className="relative group">
           <div
