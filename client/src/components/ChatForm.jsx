@@ -21,7 +21,7 @@ const ChatForm = ({ chatHistory, setChatHistory, generateBotResponse }) => {
       ]);
       generateBotResponse([
         ...chatHistory,
-        { role: "user", text: userMessage },
+        { role: "user", text: `Sử dụng nội dung này: ${userMessage}, \n\nHãy tối ưu nội dung cho SEO với:\n- Từ khóa chính và phụ\n- Headings rõ ràng\n- Meta description` },
       ]);
     }, 600);
   };

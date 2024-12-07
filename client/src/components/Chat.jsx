@@ -2,9 +2,14 @@ import ChatbotIcon from "./ChatbotIcon.jsx";
 import ChatForm from "./ChatForm.jsx";
 import ChatMessage from "./ChatMessage.jsx";
 import { useState, useRef, useEffect } from "react";
+import { schoolInfo } from "./SchoolInfo.js";
 
 const Chat = ({onInsert}) => {
-  const [chatHistory, setChatHistory] = useState([]);
+  const [chatHistory, setChatHistory] = useState([{
+    hideInChat: true,
+    role: "model",
+    text: schoolInfo,
+  }]);
   const chatBodyRef = useRef();
   const [isChatOpen, setIsChatOpen] = useState(false);
 
@@ -13,10 +18,10 @@ const Chat = ({onInsert}) => {
   };
 
   const generateBotResponse = async (history) => {
-    const updateHistory = (text) => {
+    const updateHistory = (text, isError = false) => {
       setChatHistory((prev) => [
         ...prev.filter((msg) => msg.text != "Thinking..."),
-        { role: "model", text },
+        { role: "model", text , isError},
       ]);
     };
     history = history.map(({ role, text }) => ({ role, parts: [{ text }] }));
@@ -39,7 +44,7 @@ const Chat = ({onInsert}) => {
         .trim();
       updateHistory(apiResponseText);
     } catch (error) {
-      console.log(error);
+      updateHistory(error.message, true);
     }
   };
 
@@ -61,7 +66,7 @@ const Chat = ({onInsert}) => {
         </span>
       </button>
       <div
-        className={`chatbot-popup fixed bottom-[90px] right-[35px] w-[420px] bg-white rounded-[15px] shadow-custom overflow-hidden transition-opacity duration-300 transform ${isChatOpen ? "opacity-100 pointer-events-auto scale-100" : "opacity-0 pointer-events-none scale-[0.2]"} transform-origin-bottom-right`}
+        className={`chatbot-popup fixed bottom-[90px] right-[35px] w-[420px] bg-white rounded-[15px] shadow-custom overflow-hidden transition-opacity duration-300 transform ${isChatOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
       >
         {/* Chat Header */}
         <div className="chat-header bg-cyan-500 flex items-center justify-between px-[22px] py-[15px]">
@@ -73,7 +78,8 @@ const Chat = ({onInsert}) => {
               Chat
             </h2>
           </div>
-          <button className="material-symbols-rounded h-[40px] w-[40px] border-none outline-none text-white cursor-pointer text-[1.9rem] pt-[2px] mr-[-10px] bg-none rounded-full transition duration-200 ease hover:bg-cyan-600 scroll-w">
+          <button className="material-symbols-rounded h-[40px] w-[40px] border-none outline-none text-white cursor-pointer text-[1.9rem] pt-[2px] mr-[-10px] bg-none rounded-full transition duration-200 ease hover:bg-cyan-600 scroll-w"
+          onClick={toggleChat}>
             keyboard_arrow_down
           </button>{" "}
         </div>
